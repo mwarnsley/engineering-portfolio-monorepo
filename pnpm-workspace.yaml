@@ -1,0 +1,5 @@
+packages:
+  - apps/*
+  - apps/chat-application/client
+  - apps/chat-application/server
+  - packages/*

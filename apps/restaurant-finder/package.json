@@ -1,0 +1,51 @@
+{
+  "name": "restaurantfinder",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Modern restaurant search application powered by React, Vite, HeroUI, and Geoapify.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "concurrently \"PORT=3005 node server.js\" \"vite --host 0.0.0.0 --port 3004 --strictPort\"",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "start": "PORT=3005 NODE_ENV=production node server.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.ts --runInBand --watchman=false",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.ts --watch --watchman=false",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@heroui/react": "^2.8.3",
+    "axios": "^1.15.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "framer-motion": "^12.23.24",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-router-dom": "^7.14.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.7.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^6.0.1",
+    "concurrently": "^9.2.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "prettier": "^3.6.2",
+    "tailwindcss": "^4.1.14",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.8"
+  }
+}

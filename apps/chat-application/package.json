@@ -1,0 +1,18 @@
+{
+  "name": "chat-application",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Dual-user real-time chat simulator built with React, Vite, Tailwind CSS, Express, and Socket.IO.",
+  "scripts": {
+    "dev": "concurrently \"pnpm --dir server dev\" \"pnpm --dir client dev\"",
+    "build": "pnpm --dir client build && pnpm --dir server build",
+    "preview": "pnpm --dir client preview",
+    "test": "pnpm --dir client test && pnpm --dir server test",
+    "lint": "pnpm --dir client lint && pnpm --dir server lint",
+    "format": "prettier . --write"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prettier": "^3.5.3"
+  }
+}
