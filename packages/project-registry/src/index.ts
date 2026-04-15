@@ -128,7 +128,7 @@ export const projects: ProjectRecord[] = [
     appPath: 'apps/chat-application',
     previewMode: 'iframe',
     localDevUrl: 'http://localhost:3009',
-    productionUrl: null,
+    productionUrl: 'https://chat-application-iota-drab.vercel.app',
     hasBackend: true,
     featured: true,
     sourcePath: 'apps/chat-application',

@@ -108,7 +108,9 @@ export const DemoPage = () => {
       </Card>
 
       <p className="text-xs font-mono uppercase tracking-widest text-foreground/40">
-        If the iframe is blank, start the demo locally from {project.appPath}.
+        {isLocalhost
+          ? `If the iframe is blank, start the demo locally from ${project.appPath}.`
+          : 'This demo runs inside a scrollable iframe. Scroll inside the preview to explore the app.'}
       </p>
     </div>
   );
