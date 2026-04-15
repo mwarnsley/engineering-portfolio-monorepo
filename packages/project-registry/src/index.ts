@@ -111,7 +111,7 @@ export const projects: ProjectRecord[] = [
     appPath: 'apps/movies',
     previewMode: 'iframe',
     localDevUrl: 'http://localhost:3008',
-    productionUrl: null,
+    productionUrl: 'https://movies-wine-nine.vercel.app',
     hasBackend: false,
     featured: true,
     sourcePath: 'apps/movies',
