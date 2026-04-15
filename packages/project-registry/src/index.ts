@@ -28,7 +28,7 @@ export const projects: ProjectRecord[] = [
     appPath: 'apps/react-mash',
     previewMode: 'iframe',
     localDevUrl: 'http://localhost:3002',
-    productionUrl: null,
+    productionUrl: 'https://react-mash.vercel.app',
     hasBackend: false,
     featured: true,
     sourcePath: 'apps/react-mash',
