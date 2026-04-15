@@ -9,6 +9,8 @@ import { SectionHeader } from '@/components/shared/SectionHeader';
 export const DemoPage = () => {
   const { slug = '' } = useParams();
   const project = getProjectBySlug(slug);
+  const hostname = window.location.hostname;
+  const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
 
   if (!project) {
     return (
@@ -32,6 +34,8 @@ export const DemoPage = () => {
       </div>
     );
   }
+
+  const demoUrl = isLocalhost ? project.localDevUrl : project.productionUrl ?? project.localDevUrl;
 
   return (
     <div className="max-w-7xl mx-auto px-8 py-16 space-y-10">
@@ -69,7 +73,7 @@ export const DemoPage = () => {
           <Button
             variant="outline"
             className="rounded-none uppercase tracking-widest text-xs"
-            onClick={() => window.open(project.localDevUrl, '_blank', 'noopener,noreferrer')}
+            onClick={() => window.open(demoUrl, '_blank', 'noopener,noreferrer')}
           >
             <ExternalLink className="w-4 h-4 mr-2" />
             Open Full Demo
@@ -95,7 +99,7 @@ export const DemoPage = () => {
           <div className="bg-background">
             <iframe
               key={project.slug}
-              src={project.localDevUrl}
+              src={demoUrl}
               title={`${project.title} demo preview`}
               className="h-[70vh] w-full bg-white"
             />
