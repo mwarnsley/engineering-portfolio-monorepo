@@ -4,6 +4,8 @@ import Portfolio from './Portfolio';
 import { Navigation } from './components/shared/Navigation';
 import { Footer } from './components/shared/Footer';
 import { DemoPage } from './pages/DemoPage';
+import { TerritoryTrapPrivacyPage } from './pages/TerritoryTrapPrivacyPage';
+import { TerritoryTrapSupportPage } from './pages/TerritoryTrapSupportPage';
 
 export default function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
@@ -24,6 +26,8 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Portfolio />} />
             <Route path="/demo/:slug" element={<DemoPage />} />
+            <Route path="/territory-trap/privacy" element={<TerritoryTrapPrivacyPage />} />
+            <Route path="/territory-trap/support" element={<TerritoryTrapSupportPage />} />
           </Routes>
         </main>
 

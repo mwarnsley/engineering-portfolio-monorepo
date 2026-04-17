@@ -17,15 +17,15 @@ interface NavigationProps {
  */
 export const Navigation = ({ theme, toggleTheme }: NavigationProps) => {
   const location = useLocation();
-  const isDemoRoute = location.pathname.startsWith('/demo/');
+  const isSubpageRoute = location.pathname !== '/';
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
     <nav className="fixed top-0 w-full border-b border-border bg-background/80 backdrop-blur-xl z-50 px-8 flex items-center justify-between">
       <a
-        href={isDemoRoute ? '/' : '#hero'}
-        className="flex items-center gap-2 cursor-pointer"
-        onClick={isDemoRoute ? undefined : scrollToTop}
+        href={isSubpageRoute ? '/' : '#hero'}
+        className="flex items-center gap-2 cursor-pointer group"
+        onClick={isSubpageRoute ? undefined : scrollToTop}
       >
         <div className="w-8 h-8 bg-primary rounded-sm flex items-center justify-center rotate-45 group hover:rotate-90 transition-transform duration-500">
           <Terminal className="w-4 h-4 text-primary-foreground -rotate-45 group-hover:-rotate-90 transition-transform duration-500" />
@@ -34,7 +34,7 @@ export const Navigation = ({ theme, toggleTheme }: NavigationProps) => {
       </a>
 
       <div className="hidden md:flex items-center gap-8 text-xs font-bold tracking-widest uppercase text-foreground/40">
-        {isDemoRoute ? (
+        {isSubpageRoute ? (
           <>
             <a href="/" className="hover:text-accent transition-colors cursor-pointer">
               Home

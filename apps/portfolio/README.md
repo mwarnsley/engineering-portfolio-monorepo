@@ -38,5 +38,6 @@ The app runs on `http://localhost:3000`.
 
 - Featured projects come from the shared registry instead of GitHub fetch.
 - Demo previews are available at `/demo/:slug`.
+- Territory Trap public support pages are available at `/territory-trap/privacy` and `/territory-trap/support`.
 - `Open Full Demo` uses each project's `localDevUrl`, so the target demo app must be running locally.
 - The Manifest overlay still downloads `public/resume.pdf` as `Marcus-Warnsley-Resume.pdf`.

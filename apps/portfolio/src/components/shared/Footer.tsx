@@ -6,15 +6,15 @@ import { useLocation } from 'react-router-dom';
  */
 export const Footer = () => {
   const location = useLocation();
-  const isDemoRoute = location.pathname.startsWith('/demo/');
+  const isSubpageRoute = location.pathname !== '/';
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
     <footer className="border-t border-border px-8 w-full h-20 flex items-center justify-between">
       <a
-        href={isDemoRoute ? '/' : '#hero'}
+        href={isSubpageRoute ? '/' : '#hero'}
         className="flex items-center gap-2 cursor-pointer"
-        onClick={isDemoRoute ? undefined : scrollToTop}
+        onClick={isSubpageRoute ? undefined : scrollToTop}
       >
         <div className="w-8 h-8 bg-primary rounded-sm flex items-center justify-center rotate-45">
           <Terminal className="w-4 h-4 text-primary-foreground -rotate-45" />
