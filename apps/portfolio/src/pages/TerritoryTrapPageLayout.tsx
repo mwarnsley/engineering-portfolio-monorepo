@@ -1,50 +1,44 @@
+import type { ReactNode } from 'react';
 import { ArrowLeft, Mail } from 'lucide-react';
 import { SectionHeader } from '@/components/shared/SectionHeader';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 interface TerritoryTrapPageLayoutProps {
+  /** Page title, rendered as the page's `h1`. */
   title: string;
+  /** Supporting sentence under the title. */
   subtitle: string;
-  children: React.ReactNode;
+  /** Page body content. */
+  children: ReactNode;
 }
 
 export const TERRITORY_TRAP_SUPPORT_EMAIL = 'marcus.warnsley@gmail.com';
 export const TERRITORY_TRAP_EFFECTIVE_DATE = 'April 17, 2026';
+
+const actionClassName = cn(buttonVariants({ variant: 'outline', size: 'lg' }), 'px-4');
 
 export const TerritoryTrapPageLayout = ({
   title,
   subtitle,
   children,
 }: TerritoryTrapPageLayoutProps) => (
-  <div className="max-w-4xl mx-auto px-8 py-16 space-y-10">
+  <div className="mx-auto max-w-4xl space-y-10 px-4 py-16 sm:px-8">
     <div className="flex flex-wrap items-start justify-between gap-4">
-      <div className="max-w-3xl">
-        <SectionHeader title={title} subtitle={subtitle} />
-      </div>
+      <SectionHeader as="h1" title={title} subtitle={subtitle} spacing="none" />
 
-      <div className="flex flex-wrap gap-3">
-        <Button
-          variant="outline"
-          className="rounded-none uppercase tracking-widest text-xs"
-          onClick={() => window.location.assign('/')}
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back Home
-        </Button>
-        <Button
-          variant="outline"
-          className="rounded-none uppercase tracking-widest text-xs"
-          onClick={() => window.location.assign(`mailto:${TERRITORY_TRAP_SUPPORT_EMAIL}`)}
-        >
-          <Mail className="w-4 h-4 mr-2" />
+      <div className="flex flex-wrap gap-2">
+        <a href="/" className={actionClassName}>
+          <ArrowLeft aria-hidden="true" />
+          Back home
+        </a>
+        <a href={`mailto:${TERRITORY_TRAP_SUPPORT_EMAIL}`} className={actionClassName}>
+          <Mail aria-hidden="true" />
           Contact
-        </Button>
+        </a>
       </div>
     </div>
 
-    <Card className="bg-card border-accent/20 rounded-none">
-      <CardContent className="p-6 md:p-8">{children}</CardContent>
-    </Card>
+    <div className="rounded-xl border border-border bg-card p-6 md:p-8">{children}</div>
   </div>
 );

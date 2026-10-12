@@ -1,39 +1,65 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
+import { MotionConfig } from 'motion/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Portfolio from './Portfolio';
-import { Navigation } from './components/shared/Navigation';
-import { Footer } from './components/shared/Footer';
-import { DemoPage } from './pages/DemoPage';
-import { TerritoryTrapPrivacyPage } from './pages/TerritoryTrapPrivacyPage';
-import { TerritoryTrapSupportPage } from './pages/TerritoryTrapSupportPage';
+import Portfolio from '@/Portfolio';
+import { Navigation } from '@/components/shared/Navigation';
+import { Footer } from '@/components/shared/Footer';
+
+const DemoPage = lazy(() =>
+  import('@/pages/DemoPage').then((module) => ({ default: module.DemoPage }))
+);
+const TerritoryTrapPrivacyPage = lazy(() =>
+  import('@/pages/TerritoryTrapPrivacyPage').then((module) => ({
+    default: module.TerritoryTrapPrivacyPage,
+  }))
+);
+const TerritoryTrapSupportPage = lazy(() =>
+  import('@/pages/TerritoryTrapSupportPage').then((module) => ({
+    default: module.TerritoryTrapSupportPage,
+  }))
+);
 
 export default function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
-    document.documentElement.classList.toggle('light', theme === 'light');
+    const root = document.documentElement;
+    root.classList.toggle('dark', theme === 'dark');
+    root.classList.toggle('light', theme === 'light');
   }, [theme]);
+
+  const toggleTheme = useCallback(
+    () => setTheme((current) => (current === 'dark' ? 'light' : 'dark')),
+    []
+  );
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground font-sans">
-        <Navigation
-          theme={theme}
-          toggleTheme={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
-        />
+      <MotionConfig reducedMotion="user">
+        <div className="min-h-screen bg-background text-foreground selection:bg-brand selection:text-brand-foreground font-sans">
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:text-primary-foreground"
+          >
+            Skip to content
+          </a>
 
-        <main className="relative z-10 pt-20">
-          <Routes>
-            <Route path="/" element={<Portfolio />} />
-            <Route path="/demo/:slug" element={<DemoPage />} />
-            <Route path="/territory-trap/privacy" element={<TerritoryTrapPrivacyPage />} />
-            <Route path="/territory-trap/support" element={<TerritoryTrapSupportPage />} />
-          </Routes>
-        </main>
+          <Navigation theme={theme} toggleTheme={toggleTheme} />
 
-        <Footer />
-        <div className="fixed inset-0 pointer-events-none z-[100] opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[size:100%_2px,3px_100%]" />
-      </div>
+          <main id="main-content" className="relative pt-16">
+            <Suspense fallback={<div className="min-h-screen" aria-busy="true" />}>
+              <Routes>
+                <Route path="/" element={<Portfolio />} />
+                <Route path="/demo/:slug" element={<DemoPage />} />
+                <Route path="/territory-trap/privacy" element={<TerritoryTrapPrivacyPage />} />
+                <Route path="/territory-trap/support" element={<TerritoryTrapSupportPage />} />
+              </Routes>
+            </Suspense>
+          </main>
+
+          <Footer />
+        </div>
+      </MotionConfig>
     </BrowserRouter>
   );
 }

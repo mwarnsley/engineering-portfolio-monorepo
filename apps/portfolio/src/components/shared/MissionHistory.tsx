@@ -1,54 +1,91 @@
 import { motion } from 'motion/react';
+import { MapPin } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { careerExperience } from '@/data';
+import { cn } from '@/lib/utils';
 import { SectionHeader } from './SectionHeader';
-import { missionHistory } from '@/data';
 
-/**
- * A chronological timeline of professional work experience.
- */
+const DATE_RANGE_SEPARATOR = ' – ';
+
+/** Splits "Start – End" so the range can only wrap at the dash, never mid-date. */
+const DateRange = ({ dates }: { dates: string }) => {
+  const [start, end] = dates.split(DATE_RANGE_SEPARATOR);
+  if (!end) return <>{dates}</>;
+  return (
+    <>
+      <span className="whitespace-nowrap">{start} –</span>{' '}
+      <span className="whitespace-nowrap">{end}</span>
+    </>
+  );
+};
+
 export const MissionHistory = () => {
   return (
-    <section id="history">
+    <section id="experience" aria-labelledby="experience-heading">
       <SectionHeader
-        title="Mission History"
-        subtitle="Chronological record of high-stakes operations"
+        eyebrow="Experience"
+        title="Career Experience"
+        subtitle="Senior frontend and full-stack roles across e‑commerce, security, fintech, cloud data, and enterprise platforms."
+        headingId="experience-heading"
       />
-      <div className="relative pl-8 md:pl-0">
-        <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-border -translate-x-1/2" />
 
-        <div className="space-y-24">
-          {missionHistory.map((mission, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className={`relative flex flex-col md:flex-row items-center gap-8 ${
-                i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-              }`}
-            >
-              <div className="absolute left-0 md:left-1/2 top-0 w-4 h-4 bg-background border-2 border-accent rounded-full -translate-x-1/2 z-20 shadow-[0_0_10px_rgba(188,19,254,0.5)]" />
-
-              <div className={`w-full md:w-1/2 ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                <div className="text-tertiary font-mono text-lg font-bold mb-2">{mission.date}</div>
-                <h3 className="text-2xl font-black italic uppercase mb-4">{mission.title}</h3>
-                <p className="text-sm text-accent/60 leading-relaxed max-w-md mx-auto md:mx-0 inline-block">
-                  {mission.description}
+      <ol>
+        {careerExperience.map((entry) => (
+          <motion.li
+            key={`${entry.company}-${entry.dates}`}
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+            viewport={{ once: true }}
+            className="group grid grid-cols-[--spacing(6)_1fr] gap-x-4 md:grid-cols-[--spacing(44)_--spacing(6)_1fr] md:gap-x-6"
+          >
+            <div className="col-start-2 row-start-1 space-y-1.5 pt-1 md:col-start-1 md:flex md:flex-col md:items-end md:pr-2 md:text-right">
+              <p className="font-mono text-sm text-muted-foreground">
+                <DateRange dates={entry.dates} />
+              </p>
+              {entry.location && (
+                <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <MapPin aria-hidden="true" className="size-3.5" />
+                  {entry.location}
                 </p>
-              </div>
+              )}
+              {entry.isCurrent && <Badge variant="success">Current</Badge>}
+            </div>
 
-              <div className="w-full md:w-1/2 flex justify-start md:justify-center">
-                <Badge
-                  variant="outline"
-                  className="border-accent/20 text-accent/60 uppercase tracking-widest text-[10px] rounded-none px-4 py-1"
-                >
-                  {mission.type} // {mission.status}
-                </Badge>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+            <div
+              aria-hidden="true"
+              className="relative col-start-1 row-span-2 row-start-1 flex justify-center md:col-start-2 md:row-span-1"
+            >
+              <span className="absolute inset-y-0 w-px bg-border group-first:top-3.5 group-last:bottom-auto group-last:h-3.5" />
+              <span
+                className={cn(
+                  'relative mt-2 size-3 rounded-full border-2 ring-4 ring-background',
+                  entry.isCurrent ? 'border-brand bg-brand' : 'border-border bg-background'
+                )}
+              />
+            </div>
+
+            <div className="col-start-2 row-start-2 min-w-0 space-y-3 pb-12 pt-3 md:col-start-3 md:row-start-1 md:pt-0">
+              <h3 className="text-lg font-semibold text-foreground">
+                {entry.role}
+                <span className="text-muted-foreground"> · {entry.company}</span>
+              </h3>
+              <p className="max-w-2xl leading-relaxed text-pretty text-muted-foreground">
+                {entry.summary}
+              </p>
+              {entry.highlights.length > 0 && (
+                <ul aria-label={`${entry.company} highlights`} className="flex flex-wrap gap-2">
+                  {entry.highlights.map((highlight) => (
+                    <li key={highlight}>
+                      <Badge variant="chip">{highlight}</Badge>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </motion.li>
+        ))}
+      </ol>
     </section>
   );
 };

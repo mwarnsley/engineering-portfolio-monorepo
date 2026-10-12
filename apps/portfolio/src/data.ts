@@ -1,103 +1,153 @@
-import {
-  Code2,
-  Zap,
-  Globe,
-  Database,
-  Layers,
-  Shield,
-  Workflow,
-  Palette,
-  Gauge,
-  Server,
-  Bug,
-} from 'lucide-react';
+export const YEARS_OF_EXPERIENCE_LABEL = '10+ years';
 
-export const technicalArsenal = [
-  { name: 'React / Next.js', level: 92, icon: Code2, category: 'Frontend' },
-  { name: 'TypeScript / ES6+', level: 90, icon: Zap, category: 'Language' },
-  { name: 'React Native', level: 85, icon: Globe, category: 'Mobile' },
-  { name: 'GraphQL / REST', level: 88, icon: Database, category: 'API/Data' },
-  { name: 'Redux / State', level: 88, icon: Layers, category: 'Architecture' },
-  { name: 'TESTING & QA (JEST / RTL / CYPRESS)', level: 80, icon: Shield, category: 'Quality' },
-  { name: 'SYSTEM DESIGN / ARCHITECTURE', level: 89, icon: Workflow, category: 'ARCHITECTURE' },
-  { name: 'DESIGN SYSTEMS / THEMING', level: 91, icon: Palette, category: 'UI SYSTEMS' },
-  { name: 'PERFORMANCE OPTIMIZATION', level: 85, icon: Gauge, category: 'PERFORMANCE' },
-  { name: 'NODE / EXPRESS', level: 80, icon: Server, category: 'BACKEND' },
-  { name: 'MONGODB / DATABASE DESIGN', level: 60, icon: Database, category: 'DATA' },
-  { name: 'DEBUGGING / PROBLEM SOLVING', level: 92, icon: Bug, category: 'ENGINEERING' },
+export interface StackCapability {
+  /** Display name of the capability. */
+  name: string;
+  /** Short grouping label rendered as a badge above the name. */
+  category: string;
+}
+
+export const coreStack: StackCapability[] = [
+  { name: 'React / Next.js', category: 'Frontend' },
+  { name: 'TypeScript / ES6+', category: 'Language' },
+  { name: 'React Native', category: 'Mobile' },
+  { name: 'GraphQL / REST', category: 'API & Data' },
+  { name: 'Redux / State Management', category: 'Architecture' },
+  { name: 'Jest / RTL / Cypress', category: 'Quality' },
+  { name: 'System Design', category: 'Architecture' },
+  { name: 'Design Systems & Theming', category: 'UI Systems' },
+  { name: 'Performance Optimization', category: 'Performance' },
+  { name: 'Node / Express', category: 'Backend' },
+  { name: 'MongoDB / Data Modeling', category: 'Data' },
+  { name: 'Debugging & Root-Cause Analysis', category: 'Engineering' },
 ];
 
-export const missionHistory = [
+export interface ExperienceEntry {
+  /** Employer name. */
+  company: string;
+  /** Job title held at the company. */
+  role: string;
+  /** Human-readable date range. */
+  dates: string;
+  /** Work arrangement or location, when known. */
+  location: string | null;
+  /** One-sentence summary of the work. */
+  summary: string;
+  /** Notable technologies and outcomes rendered as chips. */
+  highlights: string[];
+  /** Whether this is a current position. */
+  isCurrent: boolean;
+}
+
+export const careerExperience: ExperienceEntry[] = [
   {
-    date: '2023 - PRESENT',
-    title: 'MilliporeSigma // Senior Front End Engineer',
-    description:
-      'Architecting high-performance customer interfaces and GraphQL data layers for global e-commerce systems.',
-    status: 'Active',
-    type: 'Frontend',
+    company: 'Understood.org',
+    role: 'Senior Frontend Engineer (Contractor)',
+    dates: 'August 2026 – Present',
+    location: 'Remote',
+    summary:
+      'Building accessible, high-performance experiences on Next.js 16 and React 19 with Tailwind CSS v4 design tokens, CMS-driven content, analytics instrumentation, and feature-flagged releases held to WCAG AAA / Section 508 standards.',
+    highlights: [
+      'Next.js 16 (Turbopack)',
+      'React 19',
+      'Tailwind CSS v4 design tokens',
+      'CSS Modules',
+      'Snowplow event tracking',
+      'GraphQL / Contentful CMA',
+      'Statsig feature flagging',
+      'WCAG AAA / Section 508',
+      'Playwright + axe-core',
+    ],
+    isCurrent: true,
   },
   {
-    date: '2020 - 2023',
-    title: 'Uptycs // Senior UI Engineer',
-    description:
+    company: 'MilliporeSigma',
+    role: 'Senior Front End Engineer',
+    dates: 'October 2023 – June 2026',
+    location: null,
+    summary:
+      'Architected high-performance customer interfaces and GraphQL data layers for global e‑commerce systems.',
+    highlights: [],
+    isCurrent: false,
+  },
+  {
+    company: 'Uptycs',
+    role: 'Senior UI Engineer',
+    dates: '2020 – 2023',
+    location: null,
+    summary:
       'Engineered complex security-focused application workflows across web and mobile using React and React Native.',
-    status: 'Completed',
-    type: 'Security',
+    highlights: [],
+    isCurrent: false,
   },
   {
-    date: 'July 2020 - Oct 2020',
-    title: 'Ally Bank // Senior Front End Engineer',
-    description:
+    company: 'Ally Bank',
+    role: 'Senior Front End Engineer',
+    dates: 'July 2020 – October 2020',
+    location: null,
+    summary:
       'Modernized large-scale financial platforms from Ember.js to React, preserving stability and performance.',
-    status: 'Completed',
-    type: 'FinTech',
+    highlights: [],
+    isCurrent: false,
   },
   {
-    date: '2018 - 2020',
-    title: 'DataStax // Senior Fullstack Engineer',
-    description:
+    company: 'DataStax',
+    role: 'Senior Fullstack Engineer',
+    dates: '2018 – 2020',
+    location: null,
+    summary:
       'Built interactive network visualizations and cloud management interfaces for distributed database systems.',
-    status: 'Completed',
-    type: 'Cloud',
+    highlights: [],
+    isCurrent: false,
   },
   {
-    date: '2017 - 2018',
-    title: 'Vibenomics // Senior Fullstack Engineer',
-    description:
+    company: 'Vibenomics',
+    role: 'Senior Fullstack Engineer',
+    dates: '2017 – 2018',
+    location: null,
+    summary:
       'Architected and developed a React/Redux SaaS interface. Translated static designs into production-ready components and integrated with AWS/Firebase.',
-    status: 'Completed',
-    type: 'SaaS',
+    highlights: [],
+    isCurrent: false,
   },
   {
-    date: 'Sep 2016 - Oct 2017',
-    title: 'DirectEmployers Association // Front End Software Developer',
-    description:
+    company: 'DirectEmployers Association',
+    role: 'Front End Software Developer',
+    dates: 'September 2016 – October 2017',
+    location: null,
+    summary:
       'Architected high-scale Analytics SPAs with React/Redux and orchestrated a complete .jobs domain UI overhaul.',
-    status: 'Completed',
-    type: 'React/Redux',
+    highlights: [],
+    isCurrent: false,
   },
   {
-    date: 'May 2016 - Sep 2016',
-    title: 'Ion Three // Frontend Developer',
-    description:
+    company: 'Ion Three',
+    role: 'Frontend Developer',
+    dates: 'May 2016 – September 2016',
+    location: null,
+    summary:
       'Engineered custom JS widgets and orchestrated AWS cloud deployments for high-velocity agency digital products.',
-    status: 'Completed',
-    type: 'Agency',
+    highlights: [],
+    isCurrent: false,
   },
   {
-    date: 'Mar 2016 - May 2016',
-    title: 'Navient // Frontend Developer',
-    description:
+    company: 'Navient',
+    role: 'Frontend Developer',
+    dates: 'March 2016 – May 2016',
+    location: null,
+    summary:
       'Optimized accessibility and responsive UI components for massive enterprise platforms in the ASP.NET ecosystem.',
-    status: 'Completed',
-    type: 'Enterprise',
+    highlights: [],
+    isCurrent: false,
   },
   {
-    date: 'Mar 2014 - Mar 2016',
-    title: 'Simon Property Group // Frontend Developer',
-    description:
+    company: 'Simon Property Group',
+    role: 'Frontend Developer',
+    dates: 'March 2014 – March 2016',
+    location: null,
+    summary:
       'Scaled dynamic digital experiences across 150+ property platforms and spearheaded the Simon Careers interface.',
-    status: 'Completed',
-    type: 'Enterprise',
+    highlights: [],
+    isCurrent: false,
   },
 ];

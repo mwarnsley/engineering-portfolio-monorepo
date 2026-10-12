@@ -1,30 +1,48 @@
-import { motion } from 'motion/react';
+import { cn } from '@/lib/utils';
 
 /**
  * Props for the SectionHeader component.
  */
 interface SectionHeaderProps {
-  /** The main title of the section. */
+  /** The main title of the section, rendered as an `h2` (or `h1` when `as="h1"`). */
   title: string;
-  /** An optional subtitle for the section. */
+  /** Optional supporting sentence rendered under the title. */
   subtitle?: string;
+  /** Optional short label rendered above the title, e.g. "Experience". */
+  eyebrow?: string;
+  /**
+   * Id applied to the heading so a parent `section` can reference it via `aria-labelledby`.
+   */
+  headingId?: string;
+  /**
+   * Heading level. Use `h1` for standalone pages.
+   * @default 'h2'
+   */
+  as?: 'h1' | 'h2';
+  /**
+   * Bottom spacing. Use `none` when the header sits inside a row with sibling controls.
+   * @default 'default'
+   */
+  spacing?: 'default' | 'none';
 }
 
-/**
- * A reusable header component for portfolio sections.
- */
-export const SectionHeader = ({ title, subtitle }: SectionHeaderProps) => (
-  <div className="mb-12">
-    <motion.div
-      initial={{ width: 0 }}
-      whileInView={{ width: '60px' }}
-      className="h-1 bg-gradient-to-r from-accent to-primary mb-4"
-    />
-    <h2 className="text-4xl font-black tracking-tighter uppercase italic headline-glow">{title}</h2>
-    {subtitle && (
-      <p className="text-foreground/60 mt-2 font-mono text-sm tracking-widest uppercase">
-        {subtitle}
+export const SectionHeader = ({
+  title,
+  subtitle,
+  eyebrow,
+  headingId,
+  as: Heading = 'h2',
+  spacing = 'default',
+}: SectionHeaderProps) => (
+  <div className={cn('max-w-3xl space-y-3', spacing === 'default' && 'mb-10')}>
+    {eyebrow && (
+      <p className="font-mono text-xs font-medium uppercase tracking-widest text-brand">
+        {eyebrow}
       </p>
     )}
+    <Heading id={headingId} className="text-3xl font-semibold text-foreground sm:text-4xl">
+      {title}
+    </Heading>
+    {subtitle && <p className="text-base leading-relaxed text-muted-foreground">{subtitle}</p>}
   </div>
 );

@@ -1,41 +1,65 @@
-import React from 'react';
-import { Zap } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useModalBehavior } from '@/hooks';
+import { CLI_WELCOME_MESSAGE, runCliCommand } from '@/utils/cliCommands';
 
 /**
  * Props for the TerminalOverlay component.
  */
 interface TerminalOverlayProps {
-  /** Whether the terminal is currently open. */
+  /** Whether the CLI dialog is open. Session history resets each time it opens. */
   isOpen: boolean;
-  /** Function to close the terminal. */
+  /** Closes the dialog. Triggered by the close button, the backdrop, or the Escape key. */
   onClose: () => void;
-  /** The current text being typed in the terminal. */
-  terminalText: string;
-  /** The current value of the terminal input. */
-  inputValue: string;
-  /** Function to handle input changes. */
-  onInputChange: (value: string) => void;
-  /** The history of commands and responses. */
-  history: string[];
-  /** Function to handle command submission. */
-  onCommand: (e: React.FormEvent) => void;
 }
 
-/**
- * An interactive terminal overlay component.
- */
-export const TerminalOverlay = ({
-  isOpen,
-  onClose,
-  terminalText,
-  inputValue,
-  onInputChange,
-  history,
-  onCommand,
-}: TerminalOverlayProps) => {
+interface CliLine {
+  id: number;
+  kind: 'input' | 'output';
+  text: string;
+}
+
+export const TerminalOverlay = ({ isOpen, onClose }: TerminalOverlayProps) => {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const outputEndRef = useRef<HTMLDivElement>(null);
+  const nextLineId = useRef(0);
+  const [inputValue, setInputValue] = useState('');
+  const [lines, setLines] = useState<CliLine[]>([]);
+
+  useModalBehavior({ isOpen, onClose, containerRef: panelRef, initialFocusRef: inputRef });
+
+  useEffect(() => {
+    if (!isOpen) {
+      setLines([]);
+      setInputValue('');
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    outputEndRef.current?.scrollIntoView?.({ block: 'nearest' });
+  }, [lines]);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const { output, clearHistory } = runCliCommand(inputValue);
+    setInputValue('');
+
+    if (clearHistory) {
+      setLines([]);
+      return;
+    }
+    if (output === null) return;
+
+    setLines((current) => [
+      ...current,
+      { id: nextLineId.current++, kind: 'input', text: inputValue.trim() },
+      { id: nextLineId.current++, kind: 'output', text: output },
+    ]);
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -43,73 +67,78 @@ export const TerminalOverlay = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-background/90 backdrop-blur-md"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm md:p-8"
+          onClick={onClose}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cli-dialog-title"
+            initial={{ opacity: 0, scale: 0.98, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="w-full max-w-4xl bg-card border border-border rounded-xl overflow-hidden shadow-2xl relative flex flex-col max-h-[80vh]"
+            exit={{ opacity: 0, scale: 0.98, y: 8 }}
+            transition={{ duration: 0.2 }}
+            className="flex max-h-[80vh] w-full max-w-3xl flex-col overflow-hidden rounded-xl border border-border bg-card shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
           >
-            <div className="absolute top-12 right-4 z-20 hidden md:block">
-              <div className="bg-background/80 border border-primary/20 backdrop-blur-md p-3 font-mono text-[9px] text-primary/60 uppercase tracking-widest space-y-1">
-                <div className="text-primary font-bold border-b border-primary/20 pb-1 mb-1">
-                  COMMAND_LIST
-                </div>
-                <div>{'>'} whoami</div>
-                <div>{'>'} skills</div>
-                <div>{'>'} contact</div>
-                <div>{'>'} matrix</div>
-                <div>{'>'} clear</div>
-              </div>
-            </div>
-
-            <div className="h-10 bg-secondary border-b border-border flex items-center px-4 justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-red-500/50" />
-                <div className="w-2 h-2 rounded-full bg-amber-500/50" />
-                <div className="w-2 h-2 rounded-full bg-emerald-500/50" />
-                <span className="text-[10px] text-accent/40 font-mono ml-2 uppercase tracking-widest">
-                  system_terminal.exe
-                </span>
-              </div>
+            <div className="flex h-11 items-center justify-between border-b border-border bg-secondary px-4">
+              <h2 id="cli-dialog-title" className="font-mono text-sm text-muted-foreground">
+                portfolio-cli
+              </h2>
               <Button
                 variant="ghost"
-                size="icon"
-                className="h-6 w-6 text-foreground/40 hover:text-foreground cursor-pointer"
+                size="icon-sm"
+                className="text-muted-foreground hover:text-foreground"
                 onClick={onClose}
+                aria-label="Close CLI"
               >
-                <Zap className="w-3 h-3 rotate-45" />
+                <X aria-hidden="true" />
               </Button>
             </div>
 
-            <ScrollArea className="flex-1 p-6 font-mono text-xs text-tertiary">
-              <div className="whitespace-pre-wrap mb-4 opacity-70">{terminalText}</div>
+            <div className="flex-1 overflow-y-auto p-5 font-mono text-sm">
+              <p className="mb-4 whitespace-pre-wrap text-muted-foreground">
+                {CLI_WELCOME_MESSAGE}
+              </p>
 
-              <div className="space-y-2">
-                {history.map((line, idx) => (
-                  <div
-                    key={idx}
-                    className={
-                      line.startsWith('>') ? 'text-primary' : 'text-tertiary/80 whitespace-pre-wrap'
-                    }
-                  >
-                    {line}
-                  </div>
-                ))}
+              <div role="log" aria-live="polite" aria-label="CLI output" className="space-y-2">
+                {lines.map((line) =>
+                  line.kind === 'input' ? (
+                    <p key={line.id} className="text-brand">
+                      <span aria-hidden="true">$ </span>
+                      {line.text}
+                    </p>
+                  ) : (
+                    <p key={line.id} className="whitespace-pre-wrap text-foreground">
+                      {line.text}
+                    </p>
+                  )
+                )}
               </div>
 
-              <form onSubmit={onCommand} className="flex items-center mt-2">
-                <span className="text-primary mr-2">{'>'}</span>
+              <form
+                onSubmit={handleSubmit}
+                className="mt-3 flex items-center gap-2 rounded-md px-2 py-1 -mx-2 focus-within:ring-2 focus-within:ring-ring"
+              >
+                <span aria-hidden="true" className="text-brand">
+                  $
+                </span>
                 <input
+                  ref={inputRef}
                   type="text"
                   value={inputValue}
-                  onChange={(e) => onInputChange(e.target.value)}
-                  className="bg-transparent border-none outline-none text-tertiary w-full"
-                  autoFocus
+                  onChange={(event) => setInputValue(event.target.value)}
+                  aria-label="Command"
+                  autoComplete="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  className="w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground focus-visible:outline-none"
+                  placeholder="help"
                 />
               </form>
-            </ScrollArea>
+              <div ref={outputEndRef} />
+            </div>
           </motion.div>
         </motion.div>
       )}

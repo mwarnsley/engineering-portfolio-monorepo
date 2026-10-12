@@ -1,144 +1,128 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Github, ExternalLink, Monitor } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { featuredProjects } from '@engineering-portfolio/project-registry';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { ArrowUpRight, Github } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { featuredProjects, type ProjectRecord } from '@engineering-portfolio/project-registry';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { SectionHeader } from './SectionHeader';
 
-/**
- * A section showcasing various projects with links to source code and demos.
- */
+const ALL_CATEGORIES = 'All';
+
+const projectsByCategory = featuredProjects.reduce<Map<string, ProjectRecord[]>>(
+  (index, project) => {
+    index.get(ALL_CATEGORIES)!.push(project);
+    const bucket = index.get(project.category);
+    if (bucket) bucket.push(project);
+    else index.set(project.category, [project]);
+    return index;
+  },
+  new Map([[ALL_CATEGORIES, []]])
+);
+
+const categories = Array.from(projectsByCategory.keys());
+
 export const ProjectTerminal = () => {
-  const [activeCategory, setActiveCategory] = useState('ALL');
-  const projects = featuredProjects;
-  const navigate = useNavigate();
-
-  // Extract unique categories from projects
-  const categories = ['ALL', ...Array.from(new Set(projects.map((p) => p.category)))];
-
-  const filteredProjects =
-    activeCategory === 'ALL' ? projects : projects.filter((p) => p.category === activeCategory);
+  const [activeCategory, setActiveCategory] = useState(ALL_CATEGORIES);
+  const visibleProjects = projectsByCategory.get(activeCategory) ?? [];
 
   return (
-    <section id="terminal">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-2">
-        <SectionHeader
-          title="Project Terminal"
-          subtitle="Curated demos served from the local registry"
-        />
-        <div className="flex items-center gap-2 text-[10px] font-mono text-primary/60 uppercase tracking-widest mb-8 md:mb-12">
-          <Monitor className="w-3 h-3" />
-          <span>Registry Source: Local Workspace Metadata</span>
-        </div>
+    <section id="projects" aria-labelledby="projects-heading">
+      <SectionHeader
+        eyebrow="Projects"
+        title="Featured Applications & Sandboxes"
+        subtitle="Production-style apps across React, Vue, and Next.js. Each one runs live inside the portfolio shell."
+        headingId="projects-heading"
+      />
+
+      <div
+        role="group"
+        aria-label="Filter projects by category"
+        className="mb-8 flex flex-wrap gap-2"
+      >
+        {categories.map((category) => {
+          const isActive = activeCategory === category;
+          return (
+            <button
+              key={category}
+              type="button"
+              aria-pressed={isActive}
+              onClick={() => setActiveCategory(category)}
+              className={cn(
+                'rounded-full border px-4 py-1.5 text-sm transition-colors',
+                isActive
+                  ? 'border-primary bg-primary text-primary-foreground'
+                  : 'border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground'
+              )}
+            >
+              {category}
+            </button>
+          );
+        })}
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`px-4 py-1 font-mono text-[10px] uppercase tracking-widest border transition-all duration-300 cursor-pointer ${
-              activeCategory === cat
-                ? 'border-primary text-primary bg-primary/10 shadow-[0_0_15px_rgba(0,242,255,0.2)]'
-                : 'border-border text-foreground/40 hover:border-foreground/40'
-            }`}
-          >
-            [ {cat} ]
-          </button>
-        ))}
-      </div>
+      <motion.ul layout className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <AnimatePresence mode="popLayout" initial={false}>
+          {visibleProjects.map((project) => (
+            <motion.li
+              key={project.slug}
+              layout
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="surface-card surface-card-interactive group flex flex-col p-6"
+            >
+              <div className="mb-4 flex items-start justify-between gap-4">
+                <div className="space-y-1">
+                  <p className="font-mono text-xs text-muted-foreground">{project.framework}</p>
+                  <h3 className="text-xl font-semibold text-foreground">{project.title}</h3>
+                </div>
+                {project.hasBackend && (
+                  <Badge variant="outline" className="text-muted-foreground">
+                    Full stack
+                  </Badge>
+                )}
+              </div>
 
-      <div className="relative min-h-[400px]">
-        <motion.div layout className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
-              <motion.div
-                key={project.title}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4 }}
+              <p className="mb-5 leading-relaxed text-muted-foreground">{project.description}</p>
+
+              <ul
+                aria-label={`${project.title} technologies`}
+                className="mb-6 flex flex-wrap gap-2"
               >
-                <Card className="bg-card border-accent/20 rounded-none group hover:bg-secondary/50 transition-all duration-500 h-full">
-                  <CardHeader className="flex flex-row items-start justify-between">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-primary">
-                        <Github className="w-4 h-4" />
-                        <span className="text-[10px] font-mono uppercase tracking-widest">
-                          {project.sourcePath}
-                        </span>
-                      </div>
-                      <CardTitle className="text-2xl font-black italic uppercase group-hover:text-accent transition-colors">
-                        {project.title}
-                      </CardTitle>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-foreground/40 hover:text-foreground cursor-pointer"
-                      onClick={() => navigate(`/demo/${project.slug}`)}
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </Button>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <p className="text-sm text-foreground/60 leading-relaxed font-mono">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <Badge
-                          key={tag}
-                          variant="secondary"
-                          className="bg-secondary text-foreground/60 text-[10px] rounded-none border-none"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
+                {project.tags.map((tag) => (
+                  <li key={tag}>
+                    <Badge variant="chip">{tag}</Badge>
+                  </li>
+                ))}
+              </ul>
 
-                    <div className="flex gap-3">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="flex-1 border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground text-[10px] uppercase tracking-widest rounded-none h-8 cursor-pointer"
-                        onClick={() =>
-                          window.open(project.sourceUrl, '_blank', 'noopener,noreferrer')
-                        }
-                      >
-                        <Github className="w-3 h-3 mr-2" />
-                        View Source
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="flex-1 border-accent/30 text-accent hover:bg-accent hover:text-accent-foreground text-[10px] uppercase tracking-widest rounded-none h-8 cursor-pointer"
-                        onClick={() => navigate(`/demo/${project.slug}`)}
-                      >
-                        <ExternalLink className="w-3 h-3 mr-2" />
-                        Preview Demo
-                      </Button>
-                    </div>
-
-                    <Separator className="bg-border" />
-                    <div className="flex items-center gap-6 text-[10px] font-mono text-accent/60 uppercase tracking-widest">
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-2 h-2 rounded-full bg-primary" />
-                        <span>{project.framework}</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-      </div>
+              <div className="mt-auto flex flex-wrap gap-2">
+                <Link
+                  to={`/demo/${project.slug}`}
+                  className={cn(buttonVariants({ size: 'lg' }), 'px-4')}
+                >
+                  Preview Demo
+                  <span className="sr-only"> of {project.title}</span>
+                  <ArrowUpRight aria-hidden="true" />
+                </Link>
+                <a
+                  href={project.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(buttonVariants({ variant: 'outline', size: 'lg' }), 'px-4')}
+                >
+                  <Github aria-hidden="true" />
+                  View Source
+                  <span className="sr-only"> for {project.title} (opens in a new tab)</span>
+                </a>
+              </div>
+            </motion.li>
+          ))}
+        </AnimatePresence>
+      </motion.ul>
     </section>
   );
 };

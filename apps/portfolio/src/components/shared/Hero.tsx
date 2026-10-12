@@ -1,75 +1,93 @@
 import { motion } from 'motion/react';
+import { ArrowRight, FileText, Terminal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { YEARS_OF_EXPERIENCE_LABEL } from '@/data';
+import { SystemBlueprintCard } from './SystemBlueprintCard';
 
 /**
  * Props for the Hero component.
  */
 interface HeroProps {
-  /** Function to open the terminal overlay. */
+  /** Opens the interactive CLI overlay. */
   onOpenTerminal: () => void;
-  /** Function to start the manifest decryption sequence. */
-  onStartDecryption: () => void;
+  /** Opens the profile and résumé drawer. */
+  onOpenProfile: () => void;
 }
 
-/**
- * The hero section of the portfolio.
- */
-export const Hero = ({ onOpenTerminal, onStartDecryption }: HeroProps) => {
+const scrollToProjects = () =>
+  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+
+const fadeUp = (delay: number) => ({
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, delay },
+});
+
+export const Hero = ({ onOpenTerminal, onOpenProfile }: HeroProps) => {
   return (
-    <section
-      id="hero"
-      className="min-h-[70vh] flex flex-col items-center justify-center px-12 text-center relative"
-    >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8 }}
-        className="relative w-full max-w-5xl mx-auto"
-      >
-        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-black leading-tight tracking-tight uppercase italic mb-8 headline-glow px-12 overflow-visible">
-          <span className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/20 pr-4">
-            Engineering
-          </span>
-          <br />
-          <span className="inline-block text-gradient-cyan-purple drop-shadow-[0_0_15px_rgba(0,242,255,0.3)] pr-4">
-            Scalable Reality
-          </span>
-        </h1>
-      </motion.div>
+    <section id="hero" aria-labelledby="hero-heading" className="relative isolate overflow-hidden">
+      <div aria-hidden="true" className="hero-glow absolute inset-0 -z-10" />
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="max-w-2xl text-foreground/40 font-mono text-sm md:text-base tracking-wide leading-relaxed mb-12"
-      >
-        Senior Front-End Engineer with 10 years of experience building scalable React and TypeScript
-        applications across web and mobile. Architecting maintainable, user-focused interfaces in
-        complex environments.
-      </motion.p>
+      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-20 sm:px-8 lg:min-h-[70vh] lg:flex-row lg:items-center lg:gap-10 lg:py-28 xl:gap-16">
+        <div className="min-w-0 flex-1">
+          <motion.p
+            {...fadeUp(0)}
+            className="mb-5 font-mono text-sm font-medium uppercase tracking-widest text-brand"
+          >
+            Senior Frontend Engineer
+          </motion.p>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
-        className="flex flex-wrap justify-center gap-4"
-      >
-        <Button
-          size="lg"
-          className="bg-accent text-accent-foreground hover:opacity-90 px-8 h-14 text-sm font-bold uppercase tracking-widest rounded-none cursor-pointer"
-          onClick={onOpenTerminal}
+          <motion.h1
+            id="hero-heading"
+            {...fadeUp(0.05)}
+            className="text-4xl font-semibold leading-tight text-balance text-foreground sm:text-5xl lg:text-4xl xl:text-5xl"
+          >
+            Engineering scalable, accessible frontend systems.
+          </motion.h1>
+
+          <motion.p
+            {...fadeUp(0.15)}
+            className="mt-6 max-w-2xl text-base leading-relaxed text-pretty text-secondary-foreground md:text-lg"
+          >
+            Senior Front-End Engineer with {YEARS_OF_EXPERIENCE_LABEL} of enterprise experience
+            specializing in React, Next.js, TypeScript, and high-scale design systems. Delivering
+            resilient, WCAG AAA-compliant interfaces across complex web and mobile ecosystems.
+          </motion.p>
+
+          <motion.div {...fadeUp(0.25)} className="mt-10 space-y-5">
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button size="lg" className="h-11 px-5 sm:min-w-48" onClick={scrollToProjects}>
+                Explore Architecture
+                <ArrowRight aria-hidden="true" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-11 px-5 sm:min-w-48"
+                onClick={onOpenProfile}
+              >
+                <FileText aria-hidden="true" />
+                View Résumé
+              </Button>
+            </div>
+            <button
+              type="button"
+              onClick={onOpenTerminal}
+              className="-mx-2 inline-flex items-center gap-2 rounded-md px-2 py-1 font-mono text-sm text-secondary-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+            >
+              <Terminal aria-hidden="true" className="size-4" />
+              or explore via the interactive CLI
+            </button>
+          </motion.div>
+        </div>
+
+        <motion.div
+          {...fadeUp(0.3)}
+          className="w-full max-w-xl lg:w-sm lg:max-w-none lg:shrink-0 xl:w-md"
         >
-          Initialize Protocol
-        </Button>
-        <Button
-          size="lg"
-          variant="outline"
-          className="border-border bg-secondary hover:bg-secondary/80 px-8 h-14 text-sm font-bold uppercase tracking-widest rounded-none cursor-pointer"
-          onClick={onStartDecryption}
-        >
-          View Manifest
-        </Button>
-      </motion.div>
+          <SystemBlueprintCard />
+        </motion.div>
+      </div>
     </section>
   );
 };

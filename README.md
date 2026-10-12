@@ -64,7 +64,7 @@ pnpm dev:all
 
 This starts the portfolio plus every app registered in the showcase. Some demos still require their
 own env vars or backend services to work fully, but this is the fastest way to make the shell's
-`Open Full Demo` links and iframe previews available at once.
+`Launch in New Tab` links and iframe previews available at once.
 
 ## Run a demo app
 
@@ -102,17 +102,24 @@ Example:
 http://localhost:3000/demo/react-mash
 ```
 
-The demo page shows:
+The demo page includes:
 
-- back to projects
-- open full demo
-- view source
+- **Launch in New Tab** and **View Source** actions
+- a **Desktop / Tablet / Mobile** viewport toggle for previewing breakpoints inside the shell
+- a loading skeleton while the iframe boots, plus a "still loading" notice for cold starts
+- a fallback banner when the demo cannot be shown, with a "Launch in New Tab" link, a retry
+  action, and the app's runtime requirements from the registry
 
-If the target demo is not running, the iframe page still renders, but the embedded app will not load until that demo server is started.
+The fallback banner covers these cases:
 
-`Open Full Demo` goes directly to that project's `localDevUrl` from the shared registry. For
-example, React MASH opens `http://localhost:3002`. If that page is blank, the demo app itself is
-not running yet.
+- **Unreachable server or missing local port**: a `no-cors` reachability probe fails. When the
+  shell runs on localhost, the banner shows the exact `pnpm --filter` command that starts the demo.
+- **Mixed content**: an HTTPS shell embedding a non-local HTTP URL is blocked up front.
+- **Timeout**: the iframe has not loaded after 25 seconds. The iframe stays mounted and recovers
+  automatically if it finishes loading.
+
+On localhost the shell embeds each project's `localDevUrl`. Everywhere else it uses
+`productionUrl`, falling back to `localDevUrl` when no production URL exists.
 
 ## Environment files
 
@@ -133,8 +140,25 @@ Apps with env setup:
 
 1. Add the app under `apps/`.
 2. Add a metadata entry in `packages/project-registry/src/index.ts`.
-3. Include its `slug`, `title`, `description`, `framework`, `tags`, `appPath`, `localDevUrl`, and source information.
+3. Include its `slug`, `title`, `description`, `framework`, `tags`, `appPath`, `localDevUrl`,
+   `productionUrl`, `runtimeRequirements`, and source information.
 4. Mark it `featured: true` if it should show up in the portfolio shell.
+
+## Verification
+
+Run these from the repository root:
+
+```bash
+pnpm run typecheck   # turbo run typecheck
+pnpm run lint        # turbo run lint
+pnpm run test        # turbo run test (portfolio uses Vitest + React Testing Library)
+pnpm run build       # turbo run build
+```
+
+## Agent guidelines
+
+Coding agents follow [`AGENTS.md`](./AGENTS.md). [`CLAUDE.md`](./CLAUDE.md) defers to it. Feature
+phases are logged in [`FEATURES.md`](./FEATURES.md).
 
 ## Caveats
 

@@ -1,11 +1,15 @@
-import { TerritoryTrapPageLayout, TERRITORY_TRAP_EFFECTIVE_DATE, TERRITORY_TRAP_SUPPORT_EMAIL } from './TerritoryTrapPageLayout';
+import {
+  TerritoryTrapPageLayout,
+  TERRITORY_TRAP_EFFECTIVE_DATE,
+  TERRITORY_TRAP_SUPPORT_EMAIL,
+} from './TerritoryTrapPageLayout';
 
 export const TerritoryTrapPrivacyPage = () => (
   <TerritoryTrapPageLayout
     title="Territory Trap Privacy Policy"
     subtitle="Privacy information for the Territory Trap mobile app"
   >
-    <div className="space-y-8 text-sm leading-7 text-foreground/75">
+    <div className="space-y-8 text-sm leading-7 text-muted-foreground">
       <section className="space-y-3">
         <p>
           This Privacy Policy applies to the Territory Trap mobile app. It explains, in simple
@@ -19,9 +23,7 @@ export const TerritoryTrapPrivacyPage = () => (
       </section>
 
       <section className="space-y-3">
-        <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
-          Data Storage
-        </h3>
+        <h2 className="text-base font-semibold text-foreground">Data Storage</h2>
         <p>
           Gameplay data, such as your high score and other local app state, is currently stored on
           your device. If you delete the app or clear app data, that information may be removed.
@@ -29,23 +31,21 @@ export const TerritoryTrapPrivacyPage = () => (
       </section>
 
       <section className="space-y-3">
-        <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
-          Personal Information
-        </h3>
+        <h2 className="text-base font-semibold text-foreground">Personal Information</h2>
         <p>
-          Based on the app&apos;s current implementation, Territory Trap does not intentionally collect
-          personal information from players through an in-app account system or direct user profile
-          collection flow.
+          Based on the app&apos;s current implementation, Territory Trap does not intentionally
+          collect personal information from players through an in-app account system or direct user
+          profile collection flow.
         </p>
       </section>
 
       <section className="space-y-3">
-        <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-accent">Contact</h3>
+        <h2 className="text-base font-semibold text-foreground">Contact</h2>
         <p>
           If you have privacy questions about Territory Trap, please contact{' '}
           <a
             href={`mailto:${TERRITORY_TRAP_SUPPORT_EMAIL}`}
-            className="text-accent underline underline-offset-4"
+            className="rounded-sm text-brand underline underline-offset-4"
           >
             {TERRITORY_TRAP_SUPPORT_EMAIL}
           </a>
@@ -53,7 +53,7 @@ export const TerritoryTrapPrivacyPage = () => (
         </p>
       </section>
 
-      <p className="border-t border-border pt-6 font-mono text-xs uppercase tracking-[0.3em] text-foreground/45">
+      <p className="border-t border-border pt-6 text-xs text-muted-foreground">
         Effective date: {TERRITORY_TRAP_EFFECTIVE_DATE}
       </p>
     </div>

@@ -1,12 +1,14 @@
 {
   "name": "engineering-portfolio-monorepo",
   "private": true,
+  "packageManager": "pnpm@10.28.2",
   "scripts": {
     "dev": "pnpm dev:portfolio",
     "dev:all": "pnpm --parallel --filter ./apps/portfolio --filter ./apps/react-mash --filter ./apps/meeting-application --filter ./apps/restaurant-finder --filter ./apps/stock-trader --filter ./apps/gamespot --filter ./apps/movies --filter ./apps/chat-application dev",
     "dev:portfolio": "pnpm --filter ./apps/portfolio dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "format": "prettier . --write"
   },

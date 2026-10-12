@@ -1,6 +1,7 @@
-import { Terminal, Sun, Moon } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { BrandMark } from './BrandMark';
 
 /**
  * Props for the Navigation component.
@@ -12,60 +13,49 @@ interface NavigationProps {
   toggleTheme: () => void;
 }
 
-/**
- * The main navigation bar component.
- */
+const HOME_SECTIONS = [
+  { href: '#stack', label: 'Stack' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#experience', label: 'Experience' },
+] as const;
+
+const SUBPAGE_LINKS = [
+  { href: '/', label: 'Home' },
+  { href: '/#projects', label: 'Projects' },
+] as const;
+
+const navLinkClassName =
+  'rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground';
+
 export const Navigation = ({ theme, toggleTheme }: NavigationProps) => {
   const location = useLocation();
   const isSubpageRoute = location.pathname !== '/';
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  const links = isSubpageRoute ? SUBPAGE_LINKS : HOME_SECTIONS;
+  const nextTheme = theme === 'dark' ? 'light' : 'dark';
 
   return (
-    <nav className="fixed top-0 w-full border-b border-border bg-background/80 backdrop-blur-xl z-50 px-8 flex items-center justify-between">
-      <a
-        href={isSubpageRoute ? '/' : '#hero'}
-        className="flex items-center gap-2 cursor-pointer group"
-        onClick={isSubpageRoute ? undefined : scrollToTop}
-      >
-        <div className="w-8 h-8 bg-primary rounded-sm flex items-center justify-center rotate-45 group hover:rotate-90 transition-transform duration-500">
-          <Terminal className="w-4 h-4 text-primary-foreground -rotate-45 group-hover:-rotate-90 transition-transform duration-500" />
-        </div>
-        <span className="font-black text-base tracking-tighter ml-2">MARCUS WARNSLEY</span>
-      </a>
+    <nav
+      aria-label="Primary"
+      className="fixed top-0 z-50 flex w-full items-center justify-between border-b border-border bg-background/80 px-4 backdrop-blur-xl sm:px-8"
+    >
+      <BrandMark isSubpageRoute={isSubpageRoute} />
 
-      <div className="hidden md:flex items-center gap-8 text-xs font-bold tracking-widest uppercase text-foreground/40">
-        {isSubpageRoute ? (
-          <>
-            <a href="/" className="hover:text-accent transition-colors cursor-pointer">
-              Home
+      <div className="flex items-center gap-1">
+        <div className="hidden items-center gap-1 md:flex">
+          {links.map((link) => (
+            <a key={link.href} href={link.href} className={navLinkClassName}>
+              {link.label}
             </a>
-            <a href="/#terminal" className="hover:text-accent transition-colors cursor-pointer">
-              Projects
-            </a>
-          </>
-        ) : (
-          <>
-            <a href="#hero" className="hover:text-accent transition-colors cursor-pointer">
-              Home
-            </a>
-            <a href="#arsenal" className="hover:text-accent transition-colors cursor-pointer">
-              Arsenal
-            </a>
-            <a href="#terminal" className="hover:text-accent transition-colors cursor-pointer">
-              Projects
-            </a>
-            <a href="#history" className="hover:text-accent transition-colors cursor-pointer">
-              History
-            </a>
-          </>
-        )}
+          ))}
+        </div>
         <Button
           variant="ghost"
           size="icon"
-          className="text-foreground/40 hover:text-accent cursor-pointer"
+          className="text-muted-foreground hover:text-foreground"
           onClick={toggleTheme}
+          aria-label={`Switch to ${nextTheme} theme`}
         >
-          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          {theme === 'dark' ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}
         </Button>
       </div>
     </nav>

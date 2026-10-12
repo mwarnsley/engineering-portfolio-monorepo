@@ -12,6 +12,7 @@ export interface ProjectRecord {
   localDevUrl: string;
   productionUrl: string | null;
   hasBackend: boolean;
+  runtimeRequirements: string[];
   featured: boolean;
   sourcePath: string;
   sourceUrl: string;
@@ -30,6 +31,7 @@ export const projects: ProjectRecord[] = [
     localDevUrl: 'http://localhost:3002',
     productionUrl: 'https://react-mash.vercel.app',
     hasBackend: false,
+    runtimeRequirements: ['Static client bundle with no backend services'],
     featured: true,
     sourcePath: 'apps/react-mash',
     sourceUrl: 'https://github.com/mwarnsley/React-MASH',
@@ -47,6 +49,10 @@ export const projects: ProjectRecord[] = [
     localDevUrl: 'http://localhost:8000',
     productionUrl: 'https://meeting-application-five.vercel.app',
     hasBackend: true,
+    runtimeRequirements: [
+      'Next.js server runtime (App Router API routes)',
+      'MongoDB connection via Mongoose (MONGODB_URI)',
+    ],
     featured: true,
     sourcePath: 'apps/meeting-application',
     sourceUrl: 'https://github.com/mwarnsley/Meeting-Application',
@@ -64,6 +70,10 @@ export const projects: ProjectRecord[] = [
     localDevUrl: 'http://localhost:3004',
     productionUrl: 'https://restaurant-finder-rouge.vercel.app',
     hasBackend: true,
+    runtimeRequirements: [
+      'Express API proxy server (port 3005 locally)',
+      'Geoapify API key (GEOAPIFY_API_KEY)',
+    ],
     featured: true,
     sourcePath: 'apps/restaurant-finder',
     sourceUrl: 'https://github.com/mwarnsley/RestaurantFinder',
@@ -81,6 +91,7 @@ export const projects: ProjectRecord[] = [
     localDevUrl: 'http://localhost:3006',
     productionUrl: 'https://stock-trader-rouge.vercel.app',
     hasBackend: false,
+    runtimeRequirements: ['Finnhub market data API key (VITE_FINNHUB_API_KEY)'],
     featured: true,
     sourcePath: 'apps/stock-trader',
     sourceUrl: 'https://github.com/mwarnsley/Stock-Trader',
@@ -97,6 +108,7 @@ export const projects: ProjectRecord[] = [
     localDevUrl: 'http://localhost:3007',
     productionUrl: 'https://gamespot-flame.vercel.app',
     hasBackend: false,
+    runtimeRequirements: ['RAWG game database API key (VITE_RAWG_API_KEY)'],
     featured: true,
     sourcePath: 'apps/gamespot',
     sourceUrl: 'https://github.com/mwarnsley/gamespot',
@@ -113,6 +125,7 @@ export const projects: ProjectRecord[] = [
     localDevUrl: 'http://localhost:3008',
     productionUrl: 'https://movies-wine-nine.vercel.app',
     hasBackend: false,
+    runtimeRequirements: ['TMDB API key (VITE_TMDB_API_KEY)'],
     featured: true,
     sourcePath: 'apps/movies',
     sourceUrl: 'https://github.com/mwarnsley/movies',
@@ -130,6 +143,7 @@ export const projects: ProjectRecord[] = [
     localDevUrl: 'http://localhost:3009',
     productionUrl: 'https://chat-application-iota-drab.vercel.app',
     hasBackend: true,
+    runtimeRequirements: ['Express + Socket.IO server', 'Persistent WebSocket connection'],
     featured: true,
     sourcePath: 'apps/chat-application',
     sourceUrl: 'https://github.com/mwarnsley/Chat-Application',
@@ -138,6 +152,15 @@ export const projects: ProjectRecord[] = [
 
 export const featuredProjects = projects.filter((project) => project.featured);
 
-export function getProjectBySlug(slug: string) {
-  return projects.find((project) => project.slug === slug);
+const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
+
+/**
+ * Looks up a project by its slug in O(1) time.
+ * @param {string} slug - The registry slug, e.g. `"react-mash"`.
+ * @returns {ProjectRecord | undefined} The matching record, or `undefined` when no project uses the slug.
+ * @example
+ * getProjectBySlug('movies')?.title; // returns "Movies"
+ */
+export function getProjectBySlug(slug: string): ProjectRecord | undefined {
+  return projectsBySlug.get(slug);
 }
