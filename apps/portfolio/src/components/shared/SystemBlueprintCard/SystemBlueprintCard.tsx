@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { Check, Copy, ShieldCheck } from 'lucide-react';
+import { ArrowUpRight, Check, Copy, ShieldCheck } from 'lucide-react';
 import { projects } from '@engineering-portfolio/project-registry';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -27,7 +27,7 @@ const BLUEPRINT_ROWS: BlueprintRow[] = [
     value: (
       <span className="inline-flex items-center gap-1.5">
         <ShieldCheck aria-hidden="true" className="size-3.5 text-success" />
-        Strict WCAG AAA & Section 508 Verified
+        WCAG AAA & Section 508 design targets
       </span>
     ),
   },
@@ -56,7 +56,11 @@ const COPY_ANNOUNCEMENTS: Readonly<Record<CopyStatus, string>> = {
   failed: 'Copy failed. Select the command to copy it manually.',
 };
 
-export const SystemBlueprintCard = () => {
+interface SystemBlueprintCardProps {
+  onOpenArchitecture: () => void;
+}
+
+export const SystemBlueprintCard = ({ onOpenArchitecture }: SystemBlueprintCardProps) => {
   const [copyStatus, setCopyStatus] = useState<CopyStatus>('idle');
   const resetTimer = useRef<number | undefined>(undefined);
 
@@ -119,6 +123,16 @@ export const SystemBlueprintCard = () => {
           )}
         </Button>
       </div>
+
+      <Button
+        variant="outline"
+        className="mt-4 w-full"
+        onClick={onOpenArchitecture}
+        aria-haspopup="dialog"
+      >
+        Open architecture blueprint
+        <ArrowUpRight aria-hidden="true" />
+      </Button>
 
       <p role="status" aria-live="polite" className="sr-only">
         {COPY_ANNOUNCEMENTS[copyStatus]}

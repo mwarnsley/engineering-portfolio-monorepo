@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, FileText, Terminal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { YEARS_OF_EXPERIENCE_LABEL } from '@/data';
-import { SystemBlueprintCard } from './SystemBlueprintCard';
+import { SystemBlueprintCard } from '@/components/shared/SystemBlueprintCard';
 
 /**
  * Props for the Hero component.
@@ -12,10 +12,9 @@ interface HeroProps {
   onOpenTerminal: () => void;
   /** Opens the profile and résumé drawer. */
   onOpenProfile: () => void;
+  /** Opens the monorepo architecture blueprint. */
+  onOpenArchitecture: () => void;
 }
-
-const scrollToProjects = () =>
-  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 12 },
@@ -23,7 +22,7 @@ const fadeUp = (delay: number) => ({
   transition: { duration: 0.5, delay },
 });
 
-export const Hero = ({ onOpenTerminal, onOpenProfile }: HeroProps) => {
+export const Hero = ({ onOpenTerminal, onOpenProfile, onOpenArchitecture }: HeroProps) => {
   return (
     <section id="hero" aria-labelledby="hero-heading" className="relative isolate overflow-hidden">
       <div aria-hidden="true" className="hero-glow absolute inset-0 -z-10" />
@@ -56,7 +55,12 @@ export const Hero = ({ onOpenTerminal, onOpenProfile }: HeroProps) => {
 
           <motion.div {...fadeUp(0.25)} className="mt-10 space-y-5">
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" className="h-11 px-5 sm:min-w-48" onClick={scrollToProjects}>
+              <Button
+                size="lg"
+                className="h-11 px-5 sm:min-w-48"
+                onClick={onOpenArchitecture}
+                aria-haspopup="dialog"
+              >
                 Explore Architecture
                 <ArrowRight aria-hidden="true" />
               </Button>
@@ -85,7 +89,7 @@ export const Hero = ({ onOpenTerminal, onOpenProfile }: HeroProps) => {
           {...fadeUp(0.3)}
           className="w-full max-w-xl lg:w-sm lg:max-w-none lg:shrink-0 xl:w-md"
         >
-          <SystemBlueprintCard />
+          <SystemBlueprintCard onOpenArchitecture={onOpenArchitecture} />
         </motion.div>
       </div>
     </section>

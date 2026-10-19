@@ -1,4 +1,22 @@
+import { testMatrix } from './generated-test-matrix';
+export { testMatrixRun } from './generated-test-matrix';
+
 export type ProjectPreviewMode = 'iframe';
+export type ProjectTier = 'flagship' | 'sandbox';
+
+export interface ProjectTestSuite {
+  framework: 'Vitest' | 'Jest' | 'Playwright';
+  testCount: number;
+  coverage: { statements: number; branches: number; functions: number; lines: number };
+  suites: { name: string; file: string; type: 'unit' | 'integration' | 'e2e' | 'a11y' }[];
+  recentRunDate: string;
+  /** Counts and runner status prevent skipped tests or execution errors appearing as passes. */
+  passedCount: number;
+  failedCount: number;
+  skippedCount: number;
+  status: 'passed' | 'failed';
+  coverageScope: string[];
+}
 
 export interface ProjectRecord {
   slug: string;
@@ -6,6 +24,10 @@ export interface ProjectRecord {
   description: string;
   framework: string;
   category: string;
+  tier: ProjectTier;
+  testSuite?: ProjectTestSuite;
+  architectureHighlights?: string[];
+  challengesSolved?: string[];
   tags: string[];
   appPath: string;
   previewMode: ProjectPreviewMode;
@@ -21,6 +43,7 @@ export interface ProjectRecord {
 export const projects: ProjectRecord[] = [
   {
     slug: 'react-mash',
+    tier: 'sandbox',
     title: 'React MASH',
     description: 'A modern React remake of the classic MASH game using Redux Toolkit.',
     framework: 'React 19 + Vite',
@@ -38,6 +61,17 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'meeting-application',
+    testSuite: testMatrix['meeting-application'],
+    tier: 'flagship',
+    architectureHighlights: [
+      'Next.js 16 App Router with server-rendered views and API routes.',
+      'Mongoose connection and in-flight promise reuse for MongoDB connection pooling.',
+      'Meeting-scoped discussion state reconciled with persisted API responses.',
+    ],
+    challengesSolved: [
+      'Reuse database connections across requests and development reloads.',
+      'Keep selected discussions synchronized after comments are saved or meetings refresh.',
+    ],
     title: 'Meeting Application',
     description:
       'A Next.js meeting management app with scheduling, discussion, and MongoDB-backed workflows.',
@@ -59,6 +93,8 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'restaurant-finder',
+    testSuite: testMatrix['restaurant-finder'],
+    tier: 'sandbox',
     title: 'Restaurant Finder',
     description:
       'A React + Express restaurant search app that proxies Geoapify requests through a local server.',
@@ -80,6 +116,17 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'stock-trader',
+    testSuite: testMatrix['stock-trader'],
+    tier: 'flagship',
+    architectureHighlights: [
+      'Vue 3 with separate Pinia market, portfolio, and transaction stores.',
+      'Finnhub market feeds with simulated fallback pricing.',
+      'Trade simulation engine with reactive valuations and local persistence.',
+    ],
+    challengesSolved: [
+      'Coordinate cash, holdings, cost basis, and transaction history after trades.',
+      'Keep the dashboard usable when live market data is unavailable.',
+    ],
     title: 'Stock Trader',
     description:
       'A Vue stock dashboard with Finnhub market data, charting, and portfolio simulation flows.',
@@ -98,6 +145,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'gamespot',
+    tier: 'sandbox',
     title: 'Gamespot',
     description: 'A Vue game discovery app powered by the RAWG API with local favorites support.',
     framework: 'Vue 3 + Vite',
@@ -115,6 +163,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'movies',
+    tier: 'sandbox',
     title: 'Movies',
     description: 'A Vue movie discovery app built around TMDB search, listings, and detail pages.',
     framework: 'Vue 3 + Vite',
@@ -132,6 +181,17 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: 'chat-application',
+    testSuite: testMatrix['chat-application'],
+    tier: 'flagship',
+    architectureHighlights: [
+      'Real-time state distributed between React clients through a Socket.IO gateway.',
+      'Express HTTP server with dedicated Socket.IO event registration.',
+      'TypeScript payload contracts for message, typing, and reset events.',
+    ],
+    challengesSolved: [
+      'Broadcast messages and typing updates to connected clients.',
+      'Normalize message bodies and assign server-side IDs and timestamps before broadcast.',
+    ],
     title: 'Chat Application',
     description:
       'A real-time chat simulator with a React client and Socket.IO/Express server kept together in one app.',

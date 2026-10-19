@@ -5,5 +5,9 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "node --test scripts/test-matrix.test.mjs",
+    "refresh:test-matrix": "node scripts/refresh-test-matrix.mjs"
   }
 }

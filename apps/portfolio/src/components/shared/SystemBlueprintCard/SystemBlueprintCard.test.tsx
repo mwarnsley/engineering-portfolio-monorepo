@@ -11,13 +11,13 @@ const getRowValue = (label: string) => {
 describe('SystemBlueprintCard', () => {
   // user-event installs its own clipboard stub during setup, so spy after rendering.
   const renderWithClipboard = () => {
-    const utils = renderWithProviders(<SystemBlueprintCard />);
+    const utils = renderWithProviders(<SystemBlueprintCard onOpenArchitecture={vi.fn()} />);
     const writeText = vi.spyOn(navigator.clipboard, 'writeText');
     return { ...utils, writeText };
   };
 
   it('should render a labelled region', () => {
-    renderWithProviders(<SystemBlueprintCard />);
+    renderWithProviders(<SystemBlueprintCard onOpenArchitecture={vi.fn()} />);
     expect(screen.getByRole('region', { name: /System Blueprint/ })).toBeInTheDocument();
   });
 
@@ -25,24 +25,24 @@ describe('SystemBlueprintCard', () => {
     ['Platform Host', 'React 19 + Vite (apps/portfolio)'],
     ['Primary Focus', 'Enterprise Design Systems & Real-Time Streaming'],
     ['Active Client', 'Understood.org (Next.js 16 / Turbopack)'],
-    ['Accessibility', 'Strict WCAG AAA & Section 508 Verified'],
+    ['Accessibility', 'WCAG AAA & Section 508 design targets'],
   ])('should show %s as "%s"', (label, value) => {
-    renderWithProviders(<SystemBlueprintCard />);
+    renderWithProviders(<SystemBlueprintCard onOpenArchitecture={vi.fn()} />);
     expect(getRowValue(label)).toHaveTextContent(value);
   });
 
   it('should count hosted sub-apps from the project registry', () => {
-    renderWithProviders(<SystemBlueprintCard />);
+    renderWithProviders(<SystemBlueprintCard onOpenArchitecture={vi.fn()} />);
     expect(getRowValue('Sub-Apps Hosted')).toHaveTextContent(`${projects.length} Polyglot Apps`);
   });
 
   it.each(['React', 'Next.js', 'Vue 3', 'Express'])('should list the %s framework chip', (name) => {
-    renderWithProviders(<SystemBlueprintCard />);
+    renderWithProviders(<SystemBlueprintCard onOpenArchitecture={vi.fn()} />);
     expect(within(getRowValue('Sub-Apps Hosted')).getByText(name)).toBeInTheDocument();
   });
 
   it('should display the quickstart command', () => {
-    renderWithProviders(<SystemBlueprintCard />);
+    renderWithProviders(<SystemBlueprintCard onOpenArchitecture={vi.fn()} />);
     expect(screen.getByText(QUICKSTART_COMMAND)).toBeInTheDocument();
   });
 

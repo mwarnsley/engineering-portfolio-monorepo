@@ -1,7 +1,7 @@
-import { Moon, Sun } from 'lucide-react';
+import { FlaskConical, Moon, Sun } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { BrandMark } from './BrandMark';
+import { BrandMark } from '@/components/shared/BrandMark';
 
 /**
  * Props for the Navigation component.
@@ -11,6 +11,7 @@ interface NavigationProps {
   theme: 'dark' | 'light';
   /** Function to toggle between dark and light themes. */
   toggleTheme: () => void;
+  onOpenTestMatrix: () => void;
 }
 
 const HOME_SECTIONS = [
@@ -27,7 +28,7 @@ const SUBPAGE_LINKS = [
 const navLinkClassName =
   'rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground';
 
-export const Navigation = ({ theme, toggleTheme }: NavigationProps) => {
+export const Navigation = ({ theme, toggleTheme, onOpenTestMatrix }: NavigationProps) => {
   const location = useLocation();
   const isSubpageRoute = location.pathname !== '/';
   const links = isSubpageRoute ? SUBPAGE_LINKS : HOME_SECTIONS;
@@ -48,6 +49,15 @@ export const Navigation = ({ theme, toggleTheme }: NavigationProps) => {
             </a>
           ))}
         </div>
+        <Button
+          variant="ghost"
+          onClick={onOpenTestMatrix}
+          aria-haspopup="dialog"
+          aria-label="Open test verification matrix"
+        >
+          <FlaskConical aria-hidden="true" />
+          <span className="hidden sm:inline">Tests</span>
+        </Button>
         <Button
           variant="ghost"
           size="icon"

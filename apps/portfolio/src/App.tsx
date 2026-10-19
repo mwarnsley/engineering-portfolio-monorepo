@@ -3,6 +3,7 @@ import { MotionConfig } from 'motion/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Portfolio from '@/Portfolio';
 import { Navigation } from '@/components/shared/Navigation';
+import { TestMatrixModal } from '@/components/shared/TestMatrixModal';
 import { Footer } from '@/components/shared/Footer';
 
 const DemoPage = lazy(() =>
@@ -20,6 +21,9 @@ const TerritoryTrapSupportPage = lazy(() =>
 );
 
 export default function App() {
+  const [isTestMatrixOpen, setIsTestMatrixOpen] = useState(false);
+  const openTestMatrix = useCallback(() => setIsTestMatrixOpen(true), []);
+  const closeTestMatrix = useCallback(() => setIsTestMatrixOpen(false), []);
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
@@ -44,7 +48,7 @@ export default function App() {
             Skip to content
           </a>
 
-          <Navigation theme={theme} toggleTheme={toggleTheme} />
+          <Navigation theme={theme} toggleTheme={toggleTheme} onOpenTestMatrix={openTestMatrix} />
 
           <main id="main-content" className="relative pt-16">
             <Suspense fallback={<div className="min-h-screen" aria-busy="true" />}>
@@ -58,6 +62,7 @@ export default function App() {
           </main>
 
           <Footer />
+          <TestMatrixModal isOpen={isTestMatrixOpen} onClose={closeTestMatrix} />
         </div>
       </MotionConfig>
     </BrowserRouter>

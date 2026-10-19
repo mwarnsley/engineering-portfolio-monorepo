@@ -6,7 +6,11 @@ const renderHero = () => {
   const onOpenTerminal = vi.fn();
   const onOpenProfile = vi.fn();
   const utils = renderWithProviders(
-    <Hero onOpenTerminal={onOpenTerminal} onOpenProfile={onOpenProfile} />
+    <Hero
+      onOpenTerminal={onOpenTerminal}
+      onOpenProfile={onOpenProfile}
+      onOpenArchitecture={vi.fn()}
+    />
   );
   return { ...utils, onOpenTerminal, onOpenProfile };
 };
