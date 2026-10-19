@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { YEARS_OF_EXPERIENCE_LABEL } from '@/data';
+import { profile } from '@/data';
 import { useMotionPreference } from '@/hooks/useMotionPreference/useMotionPreference';
 import { useModalBehavior } from '@/hooks';
 import { cn } from '@/lib/utils';
@@ -21,20 +21,13 @@ interface ManifestOverlayProps {
 }
 
 const RESUME_PATH = '/resume.pdf';
-const RESUME_FILENAME = 'Marcus Warnsley - Senior Front End Engineer.pdf';
-const CONTACT_EMAIL = 'marcus.warnsley@gmail.com';
+const RESUME_FILENAME = 'Marcus Warnsley - Senior Frontend Engineer.pdf';
+const CONTACT_EMAIL = profile.email;
 
 const ENGINEERING_PRINCIPLES = [
   'Optimize for throughput and minimal latency.',
   'Protect quality through rigorous automated testing.',
   'Architect for long-term scalability and maintainability.',
-] as const;
-
-const FOCUS_AREAS = [
-  'React Architecture',
-  'TypeScript',
-  'UI/UX Engineering',
-  'Performance Auditing',
 ] as const;
 
 export const ManifestOverlay = ({ isOpen, onClose }: ManifestOverlayProps) => {
@@ -101,14 +94,19 @@ export const ManifestOverlay = ({ isOpen, onClose }: ManifestOverlayProps) => {
                     </Avatar>
                     <div>
                       <p className="text-lg font-semibold">Marcus Warnsley</p>
-                      <p className="text-sm text-muted-foreground">Senior Front-End Engineer</p>
+                      <p className="text-sm text-muted-foreground">{profile.title}</p>
                     </div>
                   </div>
-                  <p className="leading-relaxed text-muted-foreground">
-                    A systems-driven engineer with {YEARS_OF_EXPERIENCE_LABEL} in the
-                    React/TypeScript ecosystem, focused on high-performance, secure, and scalable
-                    frontend platforms.
-                  </p>
+                  <p className="leading-relaxed text-muted-foreground">{profile.summary}</p>
+                </section>
+
+                <section aria-labelledby="profile-education" className="space-y-3">
+                  <h3 id="profile-education" className="text-sm font-medium text-muted-foreground">
+                    Education
+                  </h3>
+                  <p className="font-medium">{profile.education.degree}</p>
+                  <p className="text-sm text-muted-foreground">{profile.education.institution}</p>
+                  <p className="text-sm text-muted-foreground">{profile.education.details}</p>
                 </section>
 
                 <section aria-labelledby="profile-principles" className="space-y-4">
@@ -127,7 +125,7 @@ export const ManifestOverlay = ({ isOpen, onClose }: ManifestOverlayProps) => {
                     Focus areas
                   </h3>
                   <ul className="flex flex-wrap gap-2">
-                    {FOCUS_AREAS.map((area) => (
+                    {profile.focusAreas.map((area) => (
                       <li key={area}>
                         <Badge variant="chip">{area}</Badge>
                       </li>

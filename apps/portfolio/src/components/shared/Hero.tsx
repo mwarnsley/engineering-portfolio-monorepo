@@ -1,7 +1,7 @@
 import { MotionReveal } from '@/components/shared/MotionReveal';
 import { ArrowRight, FileText, Terminal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { YEARS_OF_EXPERIENCE_LABEL } from '@/data';
+import { profile } from '@/data';
 import { SystemBlueprintCard } from '@/components/shared/SystemBlueprintCard';
 
 /**
@@ -21,7 +21,7 @@ export const Hero = ({ onOpenTerminal, onOpenProfile, onOpenArchitecture }: Hero
     <section id="hero" aria-labelledby="hero-heading" className="relative isolate overflow-hidden">
       <div aria-hidden="true" className="hero-glow absolute inset-0 -z-10" />
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-20 sm:px-8 lg:min-h-[70vh] lg:flex-row lg:items-center lg:gap-10 lg:py-28 xl:gap-16">
+      <div className="mx-auto flex max-w-portfolio flex-col gap-12 px-4 py-20 sm:px-8 lg:min-h-[70vh] lg:flex-row lg:items-center lg:gap-10 lg:py-28 xl:gap-16">
         <div className="min-w-0 flex-1">
           <MotionReveal delay={0}>
             <p className="mb-5 font-mono text-sm font-medium uppercase tracking-widest text-brand">
@@ -40,9 +40,7 @@ export const Hero = ({ onOpenTerminal, onOpenProfile, onOpenArchitecture }: Hero
 
           <MotionReveal delay={0.15}>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-pretty text-secondary-foreground md:text-lg">
-              Senior Front-End Engineer with {YEARS_OF_EXPERIENCE_LABEL} of enterprise experience
-              specializing in React, Next.js, TypeScript, and high-scale design systems. Delivering
-              resilient, WCAG AAA-compliant interfaces across complex web and mobile ecosystems.
+              {profile.summary}
             </p>
           </MotionReveal>
 

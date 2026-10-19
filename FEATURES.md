@@ -114,3 +114,12 @@ A running log of feature phases. Every feature phase appends an entry here.
   with reduced motion stays static until remounted, even if that preference is later disabled.
 - Architecture exit content becomes inert and hidden from assistive technology as the modal hook
   restores trigger focus. Added tests for exit focus, reduced motion, preference changes, and filters.
+
+## Phase 9: Résumé Alignment & Wider Showcase
+
+- Widened the hero and main content with a shared 90rem portfolio token, and delayed the four-card
+  sandbox grid to 2xl so Preview Demo and View Source can sit side by side without squeezing text.
+- Replaced the résumé download with the supplied current PDF and aligned its suggested filename.
+- Updated skills, career titles/dates/locations, outcomes, profile summary, education, and contact
+  phone from the résumé. CLI skills and contact details now use the shared profile data.
+- Preserved actual repository framework descriptions independently from résumé project copy.

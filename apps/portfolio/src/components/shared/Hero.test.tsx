@@ -32,9 +32,9 @@ describe('Hero', () => {
     ).toBeInTheDocument();
   });
 
-  it('should state 10+ years of enterprise experience in the bio', () => {
+  it('should state 10+ years of software engineering experience in the bio', () => {
     renderHero();
-    expect(screen.getByText(/10\+ years of enterprise experience/)).toBeInTheDocument();
+    expect(screen.getByText(/10\+ years of software engineering experience/)).toBeInTheDocument();
   });
 
   it('should not render the floating role badge', () => {

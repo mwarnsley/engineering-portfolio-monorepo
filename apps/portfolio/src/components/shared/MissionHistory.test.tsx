@@ -30,6 +30,16 @@ describe('MissionHistory', () => {
     expect(second).toHaveTextContent('October 2023 – June 2026');
   });
 
+  it.each([
+    ['Ally Bank', 'Senior UI Engineer (Contractor)', 'August 2020 – November 2020'],
+    ['Vibenomics', 'Lead Front End Software Engineer', 'October 2017 – September 2018'],
+    ['Uptycs (Native Security)', 'Senior UI Engineer', 'November 2020 – October 2023'],
+  ])('reflects the current résumé role and dates for %s', (company, role, dates) => {
+    renderWithProviders(<MissionHistory />);
+    const heading = screen.getByRole('heading', { name: `${role} · ${company}` });
+    expect(heading.closest('li')).toHaveTextContent(dates);
+  });
+
   it('should mark exactly one role as current', () => {
     renderWithProviders(<MissionHistory />);
     expect(screen.getAllByText('Current')).toHaveLength(1);

@@ -1,4 +1,4 @@
-import { YEARS_OF_EXPERIENCE_LABEL } from '@/data';
+import { coreStack, profile } from '@/data';
 
 export const CLI_WELCOME_MESSAGE = 'Marcus Warnsley · portfolio CLI\nType "help" to list commands.';
 
@@ -17,21 +17,13 @@ const COMMAND_OUTPUT: Readonly<Record<string, string>> = {
     '  contact   Contact channels',
     '  clear     Clear the session',
   ].join('\n'),
-  whoami: [
-    'Marcus Warnsley: Senior Front-End Engineer.',
-    `${YEARS_OF_EXPERIENCE_LABEL} building scalable React and TypeScript architectures.`,
-    'Specializing in high-performance UI and distributed systems.',
-  ].join('\n'),
-  skills: [
-    'Core stack:',
-    '  Frontend   React, Next.js, Redux, Tailwind',
-    '  Language   TypeScript, ES6+, Rust',
-    '  Mobile     React Native (iOS / Android)',
-    '  Data       GraphQL, REST, PostgreSQL',
-  ].join('\n'),
+  whoami: ['Marcus Warnsley', profile.location, profile.summary].join('\n'),
+  skills: ['Core stack:', ...coreStack.map(({ category, name }) => `  ${category}: ${name}`)].join(
+    '\n'
+  ),
   contact: [
-    'Email      marcus.warnsley@gmail.com',
-    'Phone      (317) 605-4309',
+    `Email      ${profile.email}`,
+    `Phone      ${profile.phone}`,
     'LinkedIn   linkedin.com/in/marcus-warnsley-a7b42574',
     'GitHub     github.com/mwarnsley',
   ].join('\n'),

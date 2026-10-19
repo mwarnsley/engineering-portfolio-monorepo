@@ -27,7 +27,7 @@ export default function Portfolio() {
         onOpenArchitecture={openArchitecture}
       />
 
-      <div className="mx-auto max-w-7xl space-y-24 px-4 py-16 sm:px-8 md:space-y-32">
+      <div className="mx-auto max-w-portfolio space-y-24 px-4 py-16 sm:px-8 md:space-y-32">
         <TechnicalArsenal />
         <ProjectTerminal />
         <MissionHistory />

@@ -35,6 +35,17 @@ describe('runCliCommand', () => {
     }
   );
 
+  it('uses the current résumé phone number', () => {
+    expect(runCliCommand('contact').output).toContain('260-403-0877');
+  });
+
+  it.each(['DynamoDB', 'Playwright', 'USWDS', 'Statsig'])(
+    'includes current résumé skill %s',
+    (skill) => {
+      expect(runCliCommand('skills').output).toContain(skill);
+    }
+  );
+
   it('should expose every supported command name', () => {
     expect([...CLI_COMMAND_NAMES].sort()).toEqual(['clear', 'contact', 'help', 'skills', 'whoami']);
   });

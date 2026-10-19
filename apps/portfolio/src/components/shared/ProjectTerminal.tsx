@@ -193,7 +193,7 @@ export const ProjectTerminal = () => {
         {sandboxes.length ? (
           <ProjectGrid
             filtered={hasFiltered}
-            className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4"
+            className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-4"
           >
             {sandboxes.map((project) => (
               <ProjectCard key={project.slug} project={project} filtered={hasFiltered} />

@@ -40,7 +40,7 @@ The app runs on `http://localhost:3000`.
 - Demo previews are available at `/demo/:slug`.
 - Territory Trap public support pages are available at `/territory-trap/privacy` and `/territory-trap/support`.
 - `Open Full Demo` uses each project's `localDevUrl`, so the target demo app must be running locally.
-- The Manifest overlay still downloads `public/resume.pdf` as `Marcus-Warnsley-Resume.pdf`.
+- The Manifest overlay still downloads `public/resume.pdf` as `Marcus Warnsley - Senior Frontend Engineer.pdf`.
 
 ## Architecture showcase
 
@@ -107,3 +107,13 @@ Validate with `pnpm --filter ./apps/portfolio test`, then open the architecture 
 Shift+Tab and Escape, and toggle the OS Reduce Motion preference while the page is open. Check
 both themes and a narrow viewport. Exiting architecture content is inert while focus returns to
 the opening control.
+
+## Résumé and layout alignment
+
+The downloadable `public/resume.pdf` is the supplied current résumé, preserved byte for byte.
+`src/data.ts` owns résumé-aligned skills, career history, profile details, and education; the CLI
+reads the same skills and contact data. Project framework descriptions continue to describe the
+actual repository implementations.
+
+The hero and main sections share the `max-w-portfolio` token (90rem). Sandbox cards use four
+columns at 2xl and two at medium widths so desktop action buttons have enough room on one row.
