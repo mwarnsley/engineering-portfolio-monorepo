@@ -62,3 +62,29 @@ describe('app/api/meetings/[id]/route', () => {
     expect(data.ok).toBe(true);
   });
 });
+
+it.each([
+  ['GET', GET, 'findById'],
+  ['PUT', PUT, 'findByIdAndUpdate'],
+  ['DELETE', DELETE, 'findByIdAndDelete'],
+])('%s reports database errors', async (_name, handler, method) => {
+  Meeting[method].mockRejectedValueOnce(new Error('Invalid meeting ID'));
+  const response = await handler(
+    { json: async () => ({ title: 'Updated' }) },
+    { params: Promise.resolve({ id: 'bad' }) }
+  );
+  expect(response.status).toBe(400);
+  expect(await response.json()).toEqual({ error: 'Invalid meeting ID' });
+});
+it.each([
+  ['PUT', PUT, 'findByIdAndUpdate'],
+  ['DELETE', DELETE, 'findByIdAndDelete'],
+])('%s reports missing meetings', async (_name, handler, method) => {
+  Meeting[method].mockResolvedValueOnce(null);
+  const response = await handler(
+    { json: async () => ({}) },
+    { params: Promise.resolve({ id: 'missing' }) }
+  );
+  expect(response.status).toBe(404);
+  expect(await response.json()).toEqual({ error: 'Meeting not found.' });
+});

@@ -122,3 +122,24 @@ describe('lib/meetings', () => {
     expect(data.error).toBe('Database offline');
   });
 });
+
+it.each([null, undefined])('defaults optional serialized fields when %s', (missing) => {
+  const meeting = serializeMeeting(
+    createMeeting(
+      Object.fromEntries(
+        ['actionItems', 'agenda', 'attendees', 'comments', 'location', 'tags', 'virtualLink'].map(
+          (key) => [key, missing]
+        )
+      )
+    )
+  );
+  expect(meeting).toMatchObject({
+    actionItems: [],
+    agenda: '',
+    attendees: [],
+    comments: [],
+    location: '',
+    tags: [],
+    virtualLink: '',
+  });
+});

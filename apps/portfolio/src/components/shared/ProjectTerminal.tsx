@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
+import { motion, type Variants } from 'framer-motion';
+import { useMotionPreference } from '@/hooks/useMotionPreference/useMotionPreference';
+import { revealEase } from '@/components/shared/MotionReveal';
 import { ArrowUpRight, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { featuredProjects, type ProjectRecord } from '@engineering-portfolio/project-registry';
@@ -13,11 +16,58 @@ const categories = [
   ...new Set(featuredProjects.map((project) => project.category)),
 ];
 
-const ProjectCard = ({ project }: { project: ProjectRecord }) => {
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
+};
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.2, ease: revealEase } },
+};
+
+const ProjectGrid = ({
+  children,
+  className,
+  filtered,
+}: {
+  children: ReactNode;
+  className: string;
+  filtered: boolean;
+}) => {
+  const reducedMotion = useMotionPreference();
+  const startedReduced = useRef(reducedMotion).current;
+  if (startedReduced) return <ul className={className}>{children}</ul>;
+  return (
+    <motion.ul
+      className={className}
+      variants={containerVariants}
+      initial={filtered ? false : 'hidden'}
+      animate={reducedMotion ? { opacity: 1 } : filtered ? 'visible' : undefined}
+      transition={reducedMotion ? { duration: 0 } : undefined}
+      whileInView={reducedMotion ? undefined : 'visible'}
+      viewport={{ once: true, margin: '-30px' }}
+    >
+      {children}
+    </motion.ul>
+  );
+};
+
+const ProjectCard = ({ project, filtered }: { project: ProjectRecord; filtered: boolean }) => {
+  const reducedMotion = useMotionPreference();
+  const startedReduced = useRef(reducedMotion).current;
+  const Card = startedReduced ? 'li' : motion.li;
   const isFlagship = project.tier === 'flagship';
 
   return (
-    <li
+    <Card
+      {...(startedReduced
+        ? {}
+        : {
+            variants: cardVariants,
+            initial: filtered ? false : undefined,
+            animate: reducedMotion ? { opacity: 1, y: 0 } : undefined,
+            transition: reducedMotion ? { duration: 0 } : undefined,
+          })}
       className={cn(
         'surface-card surface-card-interactive flex flex-col',
         isFlagship ? 'p-6' : 'p-5'
@@ -75,11 +125,12 @@ const ProjectCard = ({ project }: { project: ProjectRecord }) => {
           View Source<span className="sr-only"> for {project.title} (opens in a new tab)</span>
         </a>
       </div>
-    </li>
+    </Card>
   );
 };
 
 export const ProjectTerminal = () => {
+  const [hasFiltered, setHasFiltered] = useState(false);
   const [activeCategory, setActiveCategory] = useState(ALL_CATEGORIES);
   const visibleProjects = featuredProjects.filter(
     (project) => activeCategory === ALL_CATEGORIES || project.category === activeCategory
@@ -95,7 +146,10 @@ export const ProjectTerminal = () => {
             key={category}
             type="button"
             aria-pressed={activeCategory === category}
-            onClick={() => setActiveCategory(category)}
+            onClick={() => {
+              setHasFiltered(true);
+              setActiveCategory(category);
+            }}
             className={cn(
               'rounded-full border px-4 py-1.5 text-sm transition-colors',
               activeCategory === category
@@ -118,11 +172,11 @@ export const ProjectTerminal = () => {
           headingId="projects-heading"
         />
         {flagships.length ? (
-          <ul className="grid grid-cols-1 gap-5 xl:grid-cols-3">
+          <ProjectGrid filtered={hasFiltered} className="grid grid-cols-1 gap-5 xl:grid-cols-3">
             {flagships.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+              <ProjectCard key={project.slug} project={project} filtered={hasFiltered} />
             ))}
-          </ul>
+          </ProjectGrid>
         ) : (
           <p className="text-muted-foreground">
             No flagship systems in this category. Choose All to see every system.
@@ -137,11 +191,14 @@ export const ProjectTerminal = () => {
           headingId="sandboxes-heading"
         />
         {sandboxes.length ? (
-          <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <ProjectGrid
+            filtered={hasFiltered}
+            className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4"
+          >
             {sandboxes.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+              <ProjectCard key={project.slug} project={project} filtered={hasFiltered} />
             ))}
-          </ul>
+          </ProjectGrid>
         ) : (
           <p className="text-muted-foreground">
             No sandboxes in this category. Choose All to see every experiment.

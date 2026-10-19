@@ -27,3 +27,8 @@ describe('ResultsToolbar', () => {
     expect(screen.getByText('3 visible results from 4 restaurants.')).toBeInTheDocument();
   });
 });
+
+it('uses singular labels for a single result and restaurant', () => {
+  render(<ResultsToolbar hasSearched isLoading={false} resultCount={1} totalCount={1} />);
+  expect(screen.getByText('1 visible result from 1 restaurant.')).toBeInTheDocument();
+});

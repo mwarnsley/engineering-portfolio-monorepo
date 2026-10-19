@@ -5,8 +5,8 @@ import type { ProjectTestSuite } from './index';
 export const testMatrix: Record<string, ProjectTestSuite> = {
   'meeting-application': {
     framework: 'Jest',
-    testCount: 59,
-    passedCount: 59,
+    testCount: 104,
+    passedCount: 104,
     failedCount: 0,
     skippedCount: 0,
     suites: [
@@ -28,6 +28,11 @@ export const testMatrix: Record<string, ProjectTestSuite> = {
       {
         name: 'app/discuss/page',
         file: 'apps/meeting-application/tests/app/discuss-page.test.jsx',
+        type: 'integration',
+      },
+      {
+        name: 'layout.test.jsx',
+        file: 'apps/meeting-application/tests/app/layout.test.jsx',
         type: 'integration',
       },
       {
@@ -96,20 +101,60 @@ export const testMatrix: Record<string, ProjectTestSuite> = {
       'apps/meeting-application: collectCoverageFrom in Jest config (includes untested files)',
     ],
     coverage: {
-      statements: 86.81,
-      branches: 68.18,
-      functions: 85.55,
-      lines: 87.27,
+      statements: 100,
+      branches: 98.86,
+      functions: 100,
+      lines: 100,
     },
-    recentRunDate: '2026-10-19T20:34:34.089Z',
+    recentRunDate: '2026-10-19T20:46:14.640Z',
   },
   'stock-trader': {
     framework: 'Vitest',
-    testCount: 12,
-    passedCount: 12,
+    testCount: 73,
+    passedCount: 73,
     failedCount: 0,
     skippedCount: 0,
     suites: [
+      {
+        name: 'market data requests and fallbacks',
+        file: 'apps/stock-trader/src/api/stocks.spec.ts',
+        type: 'unit',
+      },
+      {
+        name: 'PriceChart.spec.ts',
+        file: 'apps/stock-trader/src/components/stocks/PriceChart.spec.ts',
+        type: 'unit',
+      },
+      {
+        name: 'TradeTicket.spec.ts',
+        file: 'apps/stock-trader/src/components/stocks/TradeTicket.spec.ts',
+        type: 'unit',
+      },
+      {
+        name: 'Input.spec.ts',
+        file: 'apps/stock-trader/src/components/ui/Input.spec.ts',
+        type: 'unit',
+      },
+      {
+        name: 'main.spec.ts',
+        file: 'apps/stock-trader/src/main.spec.ts',
+        type: 'unit',
+      },
+      {
+        name: 'market lifecycle',
+        file: 'apps/stock-trader/src/stores/stores.spec.ts',
+        type: 'unit',
+      },
+      {
+        name: 'storage.spec.ts',
+        file: 'apps/stock-trader/src/utils/storage.spec.ts',
+        type: 'unit',
+      },
+      {
+        name: 'views.spec.ts',
+        file: 'apps/stock-trader/src/views/views.spec.ts',
+        type: 'unit',
+      },
       {
         name: 'stocks api normalization',
         file: 'apps/stock-trader/tests/unit/api/stocks.spec.ts',
@@ -134,17 +179,17 @@ export const testMatrix: Record<string, ProjectTestSuite> = {
     status: 'passed',
     coverageScope: ['apps/stock-trader/src/**/*.{ts,tsx,vue} (includes untested files)'],
     coverage: {
-      statements: 21.54,
-      branches: 67.1,
-      functions: 60,
-      lines: 21.54,
+      statements: 99.85,
+      branches: 98.96,
+      functions: 100,
+      lines: 99.85,
     },
-    recentRunDate: '2026-10-19T20:34:34.089Z',
+    recentRunDate: '2026-10-19T20:46:14.640Z',
   },
   'restaurant-finder': {
     framework: 'Jest',
-    testCount: 49,
-    passedCount: 49,
+    testCount: 109,
+    passedCount: 109,
     failedCount: 0,
     skippedCount: 0,
     suites: [
@@ -194,6 +239,21 @@ export const testMatrix: Record<string, ProjectTestSuite> = {
         type: 'unit',
       },
       {
+        name: 'useApiHealth.test.ts',
+        file: 'apps/restaurant-finder/src/hooks/useApiHealth.test.ts',
+        type: 'unit',
+      },
+      {
+        name: 'useRestaurantSearch.test.ts',
+        file: 'apps/restaurant-finder/src/hooks/useRestaurantSearch.test.ts',
+        type: 'unit',
+      },
+      {
+        name: 'HomePage.test.tsx',
+        file: 'apps/restaurant-finder/src/pages/HomePage.test.tsx',
+        type: 'integration',
+      },
+      {
         name: 'RestaurantDetailsPage',
         file: 'apps/restaurant-finder/src/pages/RestaurantDetailsPage.test.tsx',
         type: 'integration',
@@ -219,28 +279,58 @@ export const testMatrix: Record<string, ProjectTestSuite> = {
       'apps/restaurant-finder: collectCoverageFrom in Jest config (includes untested files)',
     ],
     coverage: {
-      statements: 70.94,
-      branches: 57.81,
-      functions: 74.64,
-      lines: 68.42,
+      statements: 99.32,
+      branches: 99.05,
+      functions: 100,
+      lines: 99.24,
     },
-    recentRunDate: '2026-10-19T20:34:34.089Z',
+    recentRunDate: '2026-10-19T20:46:14.640Z',
   },
   'chat-application': {
     framework: 'Vitest',
-    testCount: 10,
-    passedCount: 10,
+    testCount: 38,
+    passedCount: 38,
     failedCount: 0,
     skippedCount: 0,
     suites: [
+      {
+        name: 'ChatPanel.test.tsx',
+        file: 'apps/chat-application/client/src/features/chat/ChatPanel.test.tsx',
+        type: 'unit',
+      },
+      {
+        name: 'useChatSimulator.test.ts',
+        file: 'apps/chat-application/client/src/hooks/useChatSimulator.test.ts',
+        type: 'unit',
+      },
+      {
+        name: 'main.test.tsx',
+        file: 'apps/chat-application/client/src/main.test.tsx',
+        type: 'unit',
+      },
       {
         name: 'ChatSimulator',
         file: 'apps/chat-application/client/tests/ChatSimulator.test.tsx',
         type: 'integration',
       },
       {
+        name: 'chat socket adapter',
+        file: 'apps/chat-application/client/tests/socket.test.ts',
+        type: 'unit',
+      },
+      {
+        name: 'server bootstrap',
+        file: 'apps/chat-application/server/tests/bootstrap.test.ts',
+        type: 'unit',
+      },
+      {
         name: 'chat events',
         file: 'apps/chat-application/server/tests/chatEvents.test.ts',
+        type: 'unit',
+      },
+      {
+        name: 'socket gateway',
+        file: 'apps/chat-application/server/tests/createSocketServer.test.ts',
         type: 'unit',
       },
     ],
@@ -250,20 +340,20 @@ export const testMatrix: Record<string, ProjectTestSuite> = {
       'apps/chat-application/server/src/**/*.{ts,tsx,vue} (includes untested files)',
     ],
     coverage: {
-      statements: 79.52,
-      branches: 88,
-      functions: 77.77,
-      lines: 79.52,
+      statements: 99.52,
+      branches: 98.95,
+      functions: 100,
+      lines: 99.52,
     },
-    recentRunDate: '2026-10-19T20:34:34.089Z',
+    recentRunDate: '2026-10-19T20:46:14.640Z',
   },
 };
 
 export const testMatrixRun = {
-  recentRunDate: '2026-10-19T20:34:34.089Z',
+  recentRunDate: '2026-10-19T20:46:14.640Z',
   command:
     'pnpm exec turbo run test --filter=./apps/meeting-application --filter=./apps/stock-trader --filter=./apps/restaurant-finder --filter=./apps/chat-application/client --filter=./apps/chat-application/server --force --output-logs=full --log-order=grouped',
   success: true,
   output:
-    '• Remote caching disabled\n@chat-simulator/server:test:  ✓ tests/chatEvents.test.ts (5 tests) 4ms\n@chat-simulator/server:test:  Test Files  1 passed (1)\n@chat-simulator/server:test:       Tests  5 passed (5)\nstock-trader-dashboard:test:  ✓ tests/unit/utils/currency.spec.ts (3 tests) 10ms\nstock-trader-dashboard:test:  ✓ tests/unit/api/stocks.spec.ts (3 tests) 1ms\nstock-trader-dashboard:test:  ✓ tests/unit/stores/portfolio.spec.ts (4 tests) 4ms\nstock-trader-dashboard:test:  ✓ tests/unit/components/MetricCard.spec.ts (2 tests) 13ms\nstock-trader-dashboard:test:  Test Files  4 passed (4)\nstock-trader-dashboard:test:       Tests  12 passed (12)\n@chat-simulator/client:test:  ✓ tests/ChatSimulator.test.tsx (5 tests) 147ms\n@chat-simulator/client:test:  Test Files  1 passed (1)\n@chat-simulator/client:test:       Tests  5 passed (5)\nrestaurantfinder:test: PASS src/components/SearchHero.test.tsx\nrestaurantfinder:test: PASS src/pages/RestaurantDetailsPage.test.tsx\nrestaurantfinder:test: PASS src/components/RestaurantCard.test.tsx\nrestaurantfinder:test: PASS src/utils/formatters.test.ts\nrestaurantfinder:test: PASS src/App.test.tsx\nrestaurantfinder:test: PASS src/components/RestaurantGrid.test.tsx\nrestaurantfinder:test: PASS src/components/EmptyState.test.tsx\nrestaurantfinder:test: PASS src/components/LoadingState.test.tsx\nrestaurantfinder:test: PASS src/components/FilterBar.test.tsx\nrestaurantfinder:test: PASS src/components/StatusMessage.test.tsx\nrestaurantfinder:test: PASS src/components/ResultsToolbar.test.tsx\nrestaurantfinder:test: PASS src/utils/restaurant.test.ts\nrestaurantfinder:test: PASS src/services/restaurants.test.ts\nrestaurantfinder:test: Test Suites: 13 passed, 13 total\nrestaurantfinder:test: Tests:       49 passed, 49 total\nrestaurantfinder:test: Time:        2.952 s, estimated 3 s\nmeeting-application:test: PASS tests/components/meeting-dashboard.test.jsx\nmeeting-application:test: PASS tests/components/discussion-board.test.jsx\nmeeting-application:test: PASS tests/components/app-frame.test.jsx\nmeeting-application:test: PASS tests/app/meeting-detail-page.test.jsx\nmeeting-application:test: PASS tests/components/meeting-calendar.test.jsx\nmeeting-application:test: PASS tests/components/providers.test.jsx\nmeeting-application:test: PASS tests/api/meeting-id-route.test.js\nmeeting-application:test: PASS tests/app/discuss-page.test.jsx\nmeeting-application:test: PASS tests/app/page.test.jsx\nmeeting-application:test: PASS tests/api/meetings-route.test.js\nmeeting-application:test: PASS tests/api/comments-route.test.js\nmeeting-application:test: PASS tests/lib/api.test.js\nmeeting-application:test: PASS tests/lib/meetings.test.js\nmeeting-application:test: PASS tests/models/Meeting.test.js\nmeeting-application:test: PASS tests/lib/mongoose.test.js\nmeeting-application:test: PASS tests/lib/meeting-payload.test.js\nmeeting-application:test: Test Suites: 16 passed, 16 total\nmeeting-application:test: Tests:       59 passed, 59 total\nmeeting-application:test: Time:        4.884 s, estimated 5 s\n Tasks:    5 successful, 5 total\nCached:    0 cached, 5 total\n  Time:    5.375s',
+    '• Remote caching disabled\n@chat-simulator/server:test:  ✓ tests/createSocketServer.test.ts (1 test) 4ms\n@chat-simulator/server:test:  ✓ tests/chatEvents.test.ts (5 tests) 18ms\n@chat-simulator/server:test:  ✓ tests/bootstrap.test.ts (3 tests) 117ms\n@chat-simulator/server:test:  Test Files  3 passed (3)\n@chat-simulator/server:test:       Tests  9 passed (9)\n@chat-simulator/client:test:  ✓ tests/socket.test.ts (10 tests) 6ms\n@chat-simulator/client:test:  ✓ src/hooks/useChatSimulator.test.ts (6 tests) 41ms\n@chat-simulator/client:test:  ✓ src/features/chat/ChatPanel.test.tsx (7 tests) 72ms\n@chat-simulator/client:test:  ✓ src/main.test.tsx (1 test) 422ms\n@chat-simulator/client:test:    ✓ mounts the application with both participant panels into the document root  421ms\n@chat-simulator/client:test:  ✓ tests/ChatSimulator.test.tsx (5 tests) 376ms\n@chat-simulator/client:test:  Test Files  5 passed (5)\n@chat-simulator/client:test:       Tests  29 passed (29)\nstock-trader-dashboard:test:  ✓ src/api/stocks.spec.ts (21 tests) 6ms\nstock-trader-dashboard:test:  ✓ src/utils/storage.spec.ts (2 tests) 14ms\nstock-trader-dashboard:test:  ✓ tests/unit/utils/currency.spec.ts (3 tests) 36ms\nstock-trader-dashboard:test:  ✓ tests/unit/api/stocks.spec.ts (3 tests) 1ms\nstock-trader-dashboard:test:  ✓ src/components/stocks/PriceChart.spec.ts (1 test) 9ms\nstock-trader-dashboard:test:  ✓ tests/unit/stores/portfolio.spec.ts (4 tests) 9ms\nstock-trader-dashboard:test:  ✓ src/components/ui/Input.spec.ts (3 tests) 33ms\nstock-trader-dashboard:test:  ✓ src/stores/stores.spec.ts (19 tests) 22ms\nstock-trader-dashboard:test:  ✓ tests/unit/components/MetricCard.spec.ts (2 tests) 14ms\nstock-trader-dashboard:test:  ✓ src/components/stocks/TradeTicket.spec.ts (5 tests) 97ms\nstock-trader-dashboard:test:  ✓ src/views/views.spec.ts (9 tests) 137ms\nstock-trader-dashboard:test:  ✓ src/main.spec.ts (1 test) 565ms\nstock-trader-dashboard:test:    ✓ boots the real application with Pinia and navigates every registered route  564ms\nstock-trader-dashboard:test:  Test Files  12 passed (12)\nstock-trader-dashboard:test:       Tests  73 passed (73)\nrestaurantfinder:test: PASS src/hooks/useRestaurantSearch.test.ts\nrestaurantfinder:test: PASS src/pages/HomePage.test.tsx\nrestaurantfinder:test: PASS src/hooks/useApiHealth.test.ts\nrestaurantfinder:test: PASS src/components/SearchHero.test.tsx\nrestaurantfinder:test: PASS src/pages/RestaurantDetailsPage.test.tsx\nrestaurantfinder:test: PASS src/components/RestaurantCard.test.tsx\nrestaurantfinder:test: PASS src/App.test.tsx\nrestaurantfinder:test: PASS src/components/RestaurantGrid.test.tsx\nrestaurantfinder:test: PASS src/components/StatusMessage.test.tsx\nrestaurantfinder:test: PASS src/components/FilterBar.test.tsx\nrestaurantfinder:test: PASS src/components/LoadingState.test.tsx\nrestaurantfinder:test: PASS src/components/EmptyState.test.tsx\nrestaurantfinder:test: PASS src/components/ResultsToolbar.test.tsx\nrestaurantfinder:test: PASS src/utils/restaurant.test.ts\nrestaurantfinder:test: PASS src/utils/formatters.test.ts\nrestaurantfinder:test: PASS src/services/restaurants.test.ts\nrestaurantfinder:test: Test Suites: 16 passed, 16 total\nrestaurantfinder:test: Tests:       109 passed, 109 total\nrestaurantfinder:test: Time:        5.675 s\nmeeting-application:test: PASS tests/app/layout.test.jsx\nmeeting-application:test: PASS tests/components/meeting-dashboard.test.jsx (5.343 s)\nmeeting-application:test: PASS tests/components/discussion-board.test.jsx\nmeeting-application:test: PASS tests/components/app-frame.test.jsx\nmeeting-application:test: PASS tests/app/meeting-detail-page.test.jsx\nmeeting-application:test: PASS tests/components/meeting-calendar.test.jsx\nmeeting-application:test: PASS tests/components/providers.test.jsx\nmeeting-application:test: PASS tests/api/meeting-id-route.test.js\nmeeting-application:test: PASS tests/app/page.test.jsx\nmeeting-application:test: PASS tests/app/discuss-page.test.jsx\nmeeting-application:test: PASS tests/lib/api.test.js\nmeeting-application:test: PASS tests/api/meetings-route.test.js\nmeeting-application:test: PASS tests/api/comments-route.test.js\nmeeting-application:test: PASS tests/models/Meeting.test.js\nmeeting-application:test: PASS tests/lib/meeting-payload.test.js\nmeeting-application:test: PASS tests/lib/mongoose.test.js\nmeeting-application:test: PASS tests/lib/meetings.test.js\nmeeting-application:test: Test Suites: 17 passed, 17 total\nmeeting-application:test: Tests:       104 passed, 104 total\nmeeting-application:test: Time:        9.183 s\n Tasks:    5 successful, 5 total\nCached:    0 cached, 5 total\n  Time:    10.423s',
 };

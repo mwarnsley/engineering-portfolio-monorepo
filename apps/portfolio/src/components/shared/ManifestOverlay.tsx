@@ -1,11 +1,12 @@
 import { useRef } from 'react';
 import { Download, Mail, X } from 'lucide-react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { YEARS_OF_EXPERIENCE_LABEL } from '@/data';
+import { useMotionPreference } from '@/hooks/useMotionPreference/useMotionPreference';
 import { useModalBehavior } from '@/hooks';
 import { cn } from '@/lib/utils';
 
@@ -37,6 +38,7 @@ const FOCUS_AREAS = [
 ] as const;
 
 export const ManifestOverlay = ({ isOpen, onClose }: ManifestOverlayProps) => {
+  const reducedMotion = useMotionPreference();
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -46,9 +48,10 @@ export const ManifestOverlay = ({ isOpen, onClose }: ManifestOverlayProps) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={reducedMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          exit={{ opacity: reducedMotion ? 1 : 0 }}
+          transition={{ duration: reducedMotion ? 0 : 0.15 }}
           className="fixed inset-0 z-100 flex justify-end bg-background/70 backdrop-blur-sm"
           onClick={onClose}
         >
@@ -57,10 +60,12 @@ export const ManifestOverlay = ({ isOpen, onClose }: ManifestOverlayProps) => {
             role="dialog"
             aria-modal="true"
             aria-labelledby="profile-drawer-title"
-            initial={{ x: '100%' }}
+            initial={reducedMotion ? false : { x: '100%' }}
             animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 30, stiffness: 260 }}
+            exit={{ x: reducedMotion ? 0 : '100%' }}
+            transition={
+              reducedMotion ? { duration: 0 } : { type: 'spring', damping: 30, stiffness: 260 }
+            }
             className="flex h-full w-full max-w-md flex-col border-l border-border bg-card shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >

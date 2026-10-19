@@ -29,3 +29,13 @@ describe('app/meetings/[id]/page', () => {
     expect(screen.getByText('Launch planning')).toBeInTheDocument();
   });
 });
+
+it('provides useful fallbacks for missing meeting details', async () => {
+  getMeetingById.mockResolvedValueOnce(
+    createMeeting({ agenda: '', actionItems: [], attendees: [] })
+  );
+  renderWithProviders(await MeetingDetailPage({ params: Promise.resolve({ id: 'meeting-1' }) }));
+  expect(screen.getByText('No agenda has been added yet.')).toBeInTheDocument();
+  expect(screen.getByText('No action items recorded yet.')).toBeInTheDocument();
+  expect(screen.getByText('None added yet')).toBeInTheDocument();
+});

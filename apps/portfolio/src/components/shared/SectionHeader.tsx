@@ -1,3 +1,4 @@
+import { MotionReveal } from '@/components/shared/MotionReveal';
 import { cn } from '@/lib/utils';
 
 /**
@@ -34,7 +35,7 @@ export const SectionHeader = ({
   as: Heading = 'h2',
   spacing = 'default',
 }: SectionHeaderProps) => (
-  <div className={cn('max-w-3xl space-y-3', spacing === 'default' && 'mb-10')}>
+  <MotionReveal className={cn('max-w-3xl space-y-3', spacing === 'default' && 'mb-10')}>
     {eyebrow && (
       <p className="font-mono text-xs font-medium uppercase tracking-widest text-brand">
         {eyebrow}
@@ -44,5 +45,5 @@ export const SectionHeader = ({
       {title}
     </Heading>
     {subtitle && <p className="text-base leading-relaxed text-muted-foreground">{subtitle}</p>}
-  </div>
+  </MotionReveal>
 );

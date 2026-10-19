@@ -1,4 +1,4 @@
-import { fetchRestaurantById, searchRestaurants } from './restaurants';
+import { fetchRestaurantById, getApiHealth, searchRestaurants } from './restaurants';
 import { http } from './http';
 import { restaurantFixture } from '../test/fixtures/restaurants';
 
@@ -50,4 +50,27 @@ describe('restaurant service', () => {
 
     expect(http.get).toHaveBeenCalledWith(`/restaurants/${restaurantFixture.restaurantId}`);
   });
+});
+
+it('defaults missing search results to an empty list', async () => {
+  jest.mocked(http.get).mockResolvedValueOnce({ data: {} });
+  await expect(searchRestaurants({ mode: 'city', query: 'Chicago' })).resolves.toEqual([]);
+});
+
+it('probes the upstream API and returns its health response', async () => {
+  const health = {
+    configured: true,
+    reachable: false,
+    host: 'api.example.com',
+    message: 'Offline',
+    code: 'UNREACHABLE',
+  };
+  jest.mocked(http.get).mockResolvedValueOnce({ data: health });
+  await expect(getApiHealth()).resolves.toEqual(health);
+  expect(http.get).toHaveBeenLastCalledWith('/health', { params: { probe: true } });
+});
+
+it('propagates request failures to the caller', async () => {
+  jest.mocked(http.get).mockRejectedValueOnce(new Error('Offline'));
+  await expect(searchRestaurants({ mode: 'zip', query: '10012' })).rejects.toThrow('Offline');
 });

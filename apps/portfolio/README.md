@@ -10,7 +10,7 @@ The portfolio shell lives at `apps/portfolio` and uses
 - Vite
 - Tailwind CSS 4
 - shadcn/ui
-- Motion
+- Framer Motion
 
 ## Install
 
@@ -89,3 +89,21 @@ Run the report normalization regressions with:
 ```bash
 pnpm --filter @engineering-portfolio/project-registry test
 ```
+
+## Accessible motion
+
+`MotionReveal` provides a once-only, 200ms scroll reveal with at most 8px of vertical movement.
+Project grids stagger cards by 50ms; category changes show results without replaying entrance
+animations. The architecture modal fades its backdrop for 150ms and its card for 180ms with a
+restrained 0.98-to-1 scale. Motion changes opacity and transforms, not layout dimensions.
+
+The shell respects `prefers-reduced-motion`, including changes while the page is open. Static
+content uses ordinary elements when reduced motion is initially enabled. Existing animated
+elements remain mounted and immediately target neutral transforms when the preference changes,
+preserving focus and child state. Content initially mounted as static stays static until remounted.
+The CLI and résumé drawer also disable their transforms under reduced motion.
+
+Validate with `pnpm --filter ./apps/portfolio test`, then open the architecture modal, use Tab,
+Shift+Tab and Escape, and toggle the OS Reduce Motion preference while the page is open. Check
+both themes and a narrow viewport. Exiting architecture content is inert while focus returns to
+the opening control.

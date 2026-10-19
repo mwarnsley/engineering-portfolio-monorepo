@@ -48,3 +48,18 @@ describe('restaurant utilities', () => {
     expect(buildRestaurantDetailsPath('id=restaurant/1')).toBe('/restaurants/id%3Drestaurant%2F1');
   });
 });
+
+it('omits unknown prices and deduplicates filter options', () => {
+  expect(
+    createFilterOptions([restaurantFixture, { ...restaurantFixture, priceRange: '' }])
+  ).toEqual({ cuisines: ['American', 'Burgers', 'Diner'], priceRanges: ['$$'] });
+});
+
+it('requires both selected filters to match', () => {
+  expect(
+    filterRestaurants([restaurantFixture, secondaryRestaurantFixture], {
+      cuisine: 'Seafood',
+      priceRange: '$$',
+    })
+  ).toEqual([]);
+});

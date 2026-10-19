@@ -97,3 +97,20 @@ A running log of feature phases. Every feature phase appends an entry here.
 - Added the matching Vitest V8 coverage provider to Stock Trader and the chat client/server.
   The chat client config explicitly checks both Vite and Vitest types to tolerate distinct pnpm peer instances.
   The inspector reports recorded evidence, not live browser execution or accessibility certification.
+
+## Phase 8: Measured Coverage & Accessible Motion
+
+- Expanded behavioral coverage for Meeting Application, Stock Trader, Restaurant Finder, and both
+  chat packages: API failures, database pooling, async cleanup, forms, trading state, routing,
+  socket contracts, typing timers, and startup wiring. Coverage scopes and exclusions are unchanged.
+- Refreshed the recorded quality inspector from the actual test and coverage reports. Remaining
+  gaps are defensive states unreachable through ordinary component lifecycles, plus a Vue
+  source-map branch; tests do not manufacture internal React/Vue state to claim 100%.
+- Replaced the portfolio's Motion wrapper dependency with direct `framer-motion`. Added reusable
+  200ms scroll reveals with an 8px maximum translation, 50ms project staggering, and brief
+  architecture backdrop/card transitions. Filtering bypasses entrance replay.
+- Reduced motion renders static content and neutralizes active transforms on live OS changes.
+  Wrapper hosts stay stable to preserve child state and keyboard focus. Content initially mounted
+  with reduced motion stays static until remounted, even if that preference is later disabled.
+- Architecture exit content becomes inert and hidden from assistive technology as the modal hook
+  restores trigger focus. Added tests for exit focus, reduced motion, preference changes, and filters.

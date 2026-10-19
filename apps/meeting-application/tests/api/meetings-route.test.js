@@ -66,3 +66,10 @@ describe('app/api/meetings/route', () => {
     expect(response.status).toBe(400);
   });
 });
+
+it('reports a failed database connection as a server error', async () => {
+  connectToDatabase.mockRejectedValueOnce(new Error('Database offline'));
+  const response = await GET();
+  expect(response.status).toBe(500);
+  expect(await response.json()).toEqual({ error: 'Database offline' });
+});

@@ -70,3 +70,35 @@ describe('formatters', () => {
     expect(getWebsiteLabel('https://www.example.com/path')).toBe('example.com');
   });
 });
+
+it.each([
+  ['', 'Address not available'],
+  ['12 Main Street', '12 Main Street'],
+])('formats address %j', (input, expected) => expect(formatAddressPreview(input)).toBe(expected));
+
+it.each([
+  ['', 'Hours not provided'],
+  ['  Daily   9am-5pm  ', 'Daily 9am-5pm'],
+  ['   ', ''],
+  ['; Sunday closed', '; Sunday closed'],
+  ['A'.repeat(60), `${'A'.repeat(53)}...`],
+])('formats hours %j', (input, expected) => expect(formatHoursPreview(input)).toBe(expected));
+
+it('preserves international phone numbers', () =>
+  expect(formatPhoneNumber('+44 20 1234 5678')).toBe('+44 20 1234 5678'));
+it('falls back for empty categories', () => expect(formatCategoryLabel('')).toBe('Restaurant'));
+it('falls back for an invalid website label', () =>
+  expect(getWebsiteLabel('not-a-url')).toBe('No website listed'));
+it.each(['', 'https://', 'http://[invalid', 'http://localhost'])(
+  'rejects unusable website %j',
+  (url) => expect(normalizeWebsiteUrl(url)).toBe('')
+);
+it('preserves explicit HTTP websites', () =>
+  expect(normalizeWebsiteUrl('  http://example.com/menu  ')).toBe('http://example.com/menu'));
+it('omits missing locality segments', () =>
+  expect(
+    formatLocationLine({
+      ...restaurantFixture,
+      address: { ...restaurantFixture.address, state: '', postalCode: '' },
+    })
+  ).toBe('New York'));

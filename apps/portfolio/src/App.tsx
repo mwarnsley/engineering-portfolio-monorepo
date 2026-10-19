@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
-import { MotionConfig } from 'motion/react';
+import { MotionConfig } from 'framer-motion';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Portfolio from '@/Portfolio';
 import { Navigation } from '@/components/shared/Navigation';

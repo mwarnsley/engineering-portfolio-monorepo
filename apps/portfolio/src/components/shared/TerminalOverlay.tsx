@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { X } from 'lucide-react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { useMotionPreference } from '@/hooks/useMotionPreference/useMotionPreference';
 import { useModalBehavior } from '@/hooks';
 import { CLI_WELCOME_MESSAGE, runCliCommand } from '@/utils/cliCommands';
 
@@ -22,6 +23,7 @@ interface CliLine {
 }
 
 export const TerminalOverlay = ({ isOpen, onClose }: TerminalOverlayProps) => {
+  const reducedMotion = useMotionPreference();
   const panelRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const outputEndRef = useRef<HTMLDivElement>(null);
@@ -64,9 +66,10 @@ export const TerminalOverlay = ({ isOpen, onClose }: TerminalOverlayProps) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={reducedMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          exit={{ opacity: reducedMotion ? 1 : 0 }}
+          transition={{ duration: reducedMotion ? 0 : 0.15 }}
           className="fixed inset-0 z-100 flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm md:p-8"
           onClick={onClose}
         >
@@ -75,10 +78,12 @@ export const TerminalOverlay = ({ isOpen, onClose }: TerminalOverlayProps) => {
             role="dialog"
             aria-modal="true"
             aria-labelledby="cli-dialog-title"
-            initial={{ opacity: 0, scale: 0.98, y: 8 }}
+            initial={reducedMotion ? false : { opacity: 0, scale: 0.98, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: 8 }}
-            transition={{ duration: 0.2 }}
+            exit={
+              reducedMotion ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.98, y: 8 }
+            }
+            transition={{ duration: reducedMotion ? 0 : 0.2 }}
             className="flex max-h-[80vh] w-full max-w-3xl flex-col overflow-hidden rounded-xl border border-border bg-card shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >

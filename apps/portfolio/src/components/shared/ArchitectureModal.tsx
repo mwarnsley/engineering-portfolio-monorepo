@@ -1,3 +1,6 @@
+import { AnimatePresence, motion, useIsPresent } from 'framer-motion';
+import { useMotionPreference } from '@/hooks/useMotionPreference/useMotionPreference';
+import { revealEase } from '@/components/shared/MotionReveal';
 import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ArrowUpRight, X } from 'lucide-react';
@@ -30,7 +33,17 @@ const workspaceDiagram = [
   ...projects.map((project) => `        +-- ${project.appPath}`),
 ].join('\n');
 
-export const ArchitectureModal = ({ isOpen, onClose }: ArchitectureModalProps) => {
+export const ArchitectureModal = ({ isOpen, onClose }: ArchitectureModalProps) =>
+  createPortal(
+    <AnimatePresence>
+      {isOpen && <ArchitectureDialog key="architecture" onClose={onClose} />}
+    </AnimatePresence>,
+    document.body
+  );
+
+const ArchitectureDialog = ({ onClose }: Pick<ArchitectureModalProps, 'onClose'>) => {
+  const isPresent = useIsPresent();
+  const reducedMotion = useMotionPreference();
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const [selectedSlug, setSelectedSlug] = useState(
@@ -38,18 +51,32 @@ export const ArchitectureModal = ({ isOpen, onClose }: ArchitectureModalProps) =
   );
   const selectedProject = projects.find((project) => project.slug === selectedSlug);
 
-  useModalBehavior({ isOpen, onClose, containerRef: panelRef, initialFocusRef: closeButtonRef });
+  useModalBehavior({
+    isOpen: isPresent,
+    onClose,
+    containerRef: panelRef,
+    initialFocusRef: closeButtonRef,
+  });
 
-  if (!isOpen) return null;
-
-  return createPortal(
-    <div
+  return (
+    <motion.div
+      initial={reducedMotion ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: reducedMotion ? 1 : 0 }}
+      transition={{ duration: reducedMotion ? 0 : 0.15 }}
+      aria-hidden={!isPresent || undefined}
+      inert={!isPresent}
+      style={{ pointerEvents: isPresent ? undefined : 'none' }}
       className="fixed inset-0 z-100 flex items-center justify-center bg-background/70 p-4 backdrop-blur-sm sm:p-8"
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      <div
+      <motion.div
+        initial={reducedMotion ? false : { opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={reducedMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.98 }}
+        transition={{ duration: reducedMotion ? 0 : 0.18, ease: revealEase }}
         ref={panelRef}
         role="dialog"
         aria-modal="true"
@@ -229,8 +256,7 @@ export const ArchitectureModal = ({ isOpen, onClose }: ArchitectureModalProps) =
             </div>
           </section>
         </div>
-      </div>
-    </div>,
-    document.body
+      </motion.div>
+    </motion.div>
   );
 };

@@ -53,7 +53,7 @@ importers:
         version: 19.2.3(@types/react@19.2.14)
       '@vitejs/plugin-react':
         specifier: ^4.4.1
-        version: 4.7.0(vite@6.4.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0))
+        version: 4.7.0(vite@6.4.2(@types/node@24.12.2)(jiti@1.21.7)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0))
       '@vitest/coverage-v8':
         specifier: 3.2.4
         version: 3.2.4(vitest@3.2.4)
@@ -74,10 +74,10 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^6.3.3
-        version: 6.4.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0)
+        version: 6.4.2(@types/node@24.12.2)(jiti@1.21.7)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0)
       vitest:
         specifier: ^3.1.2
-        version: 3.2.4(@types/node@24.12.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)(msw@2.13.2(@types/node@24.12.2)(typescript@5.9.3))(stylus@0.57.0)(tsx@4.21.0)
+        version: 3.2.4(@types/node@24.12.2)(@vitest/ui@3.2.4)(jiti@1.21.7)(jsdom@26.1.0)(lightningcss@1.32.0)(msw@2.13.2(@types/node@24.12.2)(typescript@5.9.3))(stylus@0.57.0)(tsx@4.21.0)
 
   apps/chat-application/server:
     dependencies:
@@ -295,12 +295,12 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      framer-motion:
+        specifier: ^12.38.0
+        version: 12.38.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       lucide-react:
         specifier: ^0.546.0
         version: 0.546.0(react@19.2.5)
-      motion:
-        specifier: ^12.23.24
-        version: 12.38.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       react:
         specifier: ^19.0.0
         version: 19.2.5
@@ -523,7 +523,7 @@ importers:
         version: 24.12.2
       '@vitejs/plugin-vue':
         specifier: ^5.2.4
-        version: 5.2.4(vite@6.4.2(@types/node@24.12.2)(jiti@1.21.7)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0))(vue@3.5.32(typescript@5.9.3))
+        version: 5.2.4(vite@6.4.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0))(vue@3.5.32(typescript@5.9.3))
       '@vitest/coverage-v8':
         specifier: 3.2.4
         version: 3.2.4(vitest@3.2.4)
@@ -547,7 +547,7 @@ importers:
         version: 3.8.2
       shadcn-vue:
         specifier: ^2.6.2
-        version: 2.6.2(eslint@10.2.0(jiti@1.21.7))(magicast@0.3.5)(vue@3.5.32(typescript@5.9.3))
+        version: 2.6.2(eslint@10.2.0(jiti@2.6.1))(magicast@0.3.5)(vue@3.5.32(typescript@5.9.3))
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.19(tsx@4.21.0)
@@ -559,10 +559,10 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^6.3.5
-        version: 6.4.2(@types/node@24.12.2)(jiti@1.21.7)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0)
+        version: 6.4.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0)
       vitest:
         specifier: ^3.1.2
-        version: 3.2.4(@types/node@24.12.2)(@vitest/ui@3.2.4)(jiti@1.21.7)(jsdom@26.1.0)(lightningcss@1.32.0)(msw@2.13.2(@types/node@24.12.2)(typescript@5.9.3))(stylus@0.57.0)(tsx@4.21.0)
+        version: 3.2.4(@types/node@24.12.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)(msw@2.13.2(@types/node@24.12.2)(typescript@5.9.3))(stylus@0.57.0)(tsx@4.21.0)
       vue-tsc:
         specifier: ^2.2.10
         version: 2.2.12(typescript@5.9.3)
@@ -5883,20 +5883,6 @@ packages:
   motion-utils@12.36.0:
     resolution: {integrity: sha512-eHWisygbiwVvf6PZ1vhaHCLamvkSbPIeAYxWUuL3a2PD/TROgE7FvfHWTIH4vMl798QLfMw15nRqIaRDXTlYRg==}
 
-  motion@12.38.0:
-    resolution: {integrity: sha512-uYfXzeHlgThchzwz5Te47dlv5JOUC7OB4rjJ/7XTUgtBZD8CchMN8qEJ4ZVsUmTyYA44zjV0fBwsiktRuFnn+w==}
-    peerDependencies:
-      '@emotion/is-prop-valid': '*'
-      react: ^18.0.0 || ^19.0.0
-      react-dom: ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@emotion/is-prop-valid':
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-
   mpath@0.9.0:
     resolution: {integrity: sha512-ikJRQTk8hw5DEoFVxHG1Gn9T/xcjtdnOKIU1JTmGjZZlg9LST2mBLmcX3/ICIbgJydT2GOc15RnNy5mHmzfSew==}
     engines: {node: '>=4.0.0'}
@@ -8254,9 +8240,9 @@ snapshots:
   '@esbuild/win32-x64@0.27.7':
     optional: true
 
-  '@eslint-community/eslint-utils@4.9.1(eslint@10.2.0(jiti@1.21.7))':
+  '@eslint-community/eslint-utils@4.9.1(eslint@10.2.0(jiti@2.6.1))':
     dependencies:
-      eslint: 10.2.0(jiti@1.21.7)
+      eslint: 10.2.0(jiti@2.6.1)
       eslint-visitor-keys: 3.4.3
 
   '@eslint-community/regexpp@4.12.2': {}
@@ -11334,7 +11320,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
-  '@vitejs/plugin-react@4.7.0(vite@6.4.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0))':
+  '@vitejs/plugin-react@4.7.0(vite@6.4.2(@types/node@24.12.2)(jiti@1.21.7)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0))':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.29.0)
@@ -11342,7 +11328,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.27
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 6.4.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0)
+      vite: 6.4.2(@types/node@24.12.2)(jiti@1.21.7)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -11368,9 +11354,9 @@ snapshots:
       vite: 5.4.21(@types/node@24.12.2)(lightningcss@1.32.0)(stylus@0.57.0)
       vue: 3.5.32(typescript@5.9.3)
 
-  '@vitejs/plugin-vue@5.2.4(vite@6.4.2(@types/node@24.12.2)(jiti@1.21.7)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0))(vue@3.5.32(typescript@5.9.3))':
+  '@vitejs/plugin-vue@5.2.4(vite@6.4.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0))(vue@3.5.32(typescript@5.9.3))':
     dependencies:
-      vite: 6.4.2(@types/node@24.12.2)(jiti@1.21.7)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0)
+      vite: 6.4.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0)
       vue: 3.5.32(typescript@5.9.3)
 
   '@vitejs/plugin-vue@5.2.4(vite@6.4.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(stylus@0.57.0)(tsx@4.21.0))(vue@3.5.32(typescript@6.0.2))':
@@ -11479,7 +11465,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.16
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/node@24.12.2)(@vitest/ui@3.2.4)(jiti@1.21.7)(jsdom@26.1.0)(lightningcss@1.32.0)(msw@2.13.2(@types/node@24.12.2)(typescript@5.9.3))(stylus@0.57.0)(tsx@4.21.0)
+      vitest: 3.2.4(@types/node@22.19.17)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)(msw@2.13.2(@types/node@22.19.17)(typescript@5.8.3))(stylus@0.57.0)(tsx@4.21.0)
 
   '@vitest/utils@3.2.4':
     dependencies:
@@ -12493,9 +12479,9 @@ snapshots:
 
   eslint-visitor-keys@5.0.1: {}
 
-  eslint@10.2.0(jiti@1.21.7):
+  eslint@10.2.0(jiti@2.6.1):
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@10.2.0(jiti@1.21.7))
+      '@eslint-community/eslint-utils': 4.9.1(eslint@10.2.0(jiti@2.6.1))
       '@eslint-community/regexpp': 4.12.2
       '@eslint/config-array': 0.23.5
       '@eslint/config-helpers': 0.5.5
@@ -12526,7 +12512,7 @@ snapshots:
       natural-compare: 1.4.0
       optionator: 0.9.4
     optionalDependencies:
-      jiti: 1.21.7
+      jiti: 2.6.1
     transitivePeerDependencies:
       - supports-color
 
@@ -13827,15 +13813,6 @@ snapshots:
 
   motion-utils@12.36.0: {}
 
-  motion@12.38.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
-    dependencies:
-      framer-motion: 12.38.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      tslib: 2.8.1
-    optionalDependencies:
-      '@emotion/is-prop-valid': 1.4.0
-      react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
-
   mpath@0.9.0: {}
 
   mquery@6.0.0: {}
@@ -14737,7 +14714,7 @@ snapshots:
 
   setprototypeof@1.2.0: {}
 
-  shadcn-vue@2.6.2(eslint@10.2.0(jiti@1.21.7))(magicast@0.3.5)(vue@3.5.32(typescript@5.9.3)):
+  shadcn-vue@2.6.2(eslint@10.2.0(jiti@2.6.1))(magicast@0.3.5)(vue@3.5.32(typescript@5.9.3)):
     dependencies:
       '@dotenvx/dotenvx': 1.61.0
       '@modelcontextprotocol/sdk': 1.29.0(zod@3.25.76)
@@ -14771,7 +14748,7 @@ snapshots:
       ts-morph: 27.0.2
       undici: 7.24.8
       validate-npm-package-name: 5.0.1
-      vue-metamorph: 3.3.4(eslint@10.2.0(jiti@1.21.7))
+      vue-metamorph: 3.3.4(eslint@10.2.0(jiti@2.6.1))
       zod: 3.25.76
       zod-to-json-schema: 3.25.2(zod@3.25.76)
     transitivePeerDependencies:
@@ -15844,10 +15821,10 @@ snapshots:
     dependencies:
       vue: 3.5.32(typescript@5.9.3)
 
-  vue-eslint-parser@10.4.0(eslint@10.2.0(jiti@1.21.7)):
+  vue-eslint-parser@10.4.0(eslint@10.2.0(jiti@2.6.1)):
     dependencies:
       debug: 4.4.3
-      eslint: 10.2.0(jiti@1.21.7)
+      eslint: 10.2.0(jiti@2.6.1)
       eslint-scope: 9.1.2
       eslint-visitor-keys: 5.0.1
       espree: 11.2.0
@@ -15856,7 +15833,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vue-metamorph@3.3.4(eslint@10.2.0(jiti@1.21.7)):
+  vue-metamorph@3.3.4(eslint@10.2.0(jiti@2.6.1)):
     dependencies:
       '@babel/parser': 8.0.0-alpha.12
       ast-types-x: 1.18.0
@@ -15877,7 +15854,7 @@ snapshots:
       postcss-styl: 0.12.3
       recast-x: 1.0.5
       table: 6.9.0
-      vue-eslint-parser: 10.4.0(eslint@10.2.0(jiti@1.21.7))
+      vue-eslint-parser: 10.4.0(eslint@10.2.0(jiti@2.6.1))
     transitivePeerDependencies:
       - eslint
       - supports-color

@@ -27,3 +27,9 @@ describe('lib/api', () => {
     expect(response.status).toBe(400);
   });
 });
+
+it('defaults unclassified errors to HTTP 500', async () => {
+  const response = errorResponse('Unavailable');
+  expect(response.status).toBe(500);
+  expect(await response.json()).toEqual({ error: 'Unavailable' });
+});

@@ -60,3 +60,29 @@ describe('app/api/meetings/[id]/comments/route', () => {
     expect(response.status).toBe(404);
   });
 });
+
+it.each([
+  [
+    { author: '  Ari  ', message: '  Decision made  ', sentiment: 'decision' },
+    { author: 'Ari', message: 'Decision made', sentiment: 'decision' },
+  ],
+  [{}, { author: '', message: '', sentiment: undefined }],
+])('normalizes submitted comment fields %j', async (body, expected) => {
+  const meeting = { _id: 'meeting-1', comments: [], save: jest.fn().mockResolvedValue() };
+  Meeting.findById.mockResolvedValueOnce(meeting);
+  await POST({ json: async () => body }, { params: Promise.resolve({ id: 'meeting-1' }) });
+  expect(meeting.comments).toEqual([expected]);
+  expect(meeting.save).toHaveBeenCalledTimes(1);
+});
+it('returns validation errors when saving a comment fails', async () => {
+  Meeting.findById.mockResolvedValueOnce({
+    comments: [],
+    save: jest.fn().mockRejectedValue(new Error('Author is required')),
+  });
+  const response = await POST(
+    { json: async () => ({}) },
+    { params: Promise.resolve({ id: 'meeting-1' }) }
+  );
+  expect(response.status).toBe(400);
+  expect(await response.json()).toEqual({ error: 'Author is required' });
+});

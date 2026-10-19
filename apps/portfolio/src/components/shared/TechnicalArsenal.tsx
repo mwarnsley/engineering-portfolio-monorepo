@@ -1,7 +1,7 @@
-import { motion } from 'motion/react';
+import { MotionReveal } from '@/components/shared/MotionReveal';
 import { Badge } from '@/components/ui/badge';
 import { coreStack } from '@/data';
-import { SectionHeader } from './SectionHeader';
+import { SectionHeader } from '@/components/shared/SectionHeader';
 
 export const TechnicalArsenal = () => {
   return (
@@ -14,19 +14,17 @@ export const TechnicalArsenal = () => {
       />
       <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {coreStack.map((capability, index) => (
-          <motion.li
-            key={capability.name}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: (index % 3) * 0.05 }}
-            viewport={{ once: true }}
-            className="surface-card surface-card-interactive flex flex-col items-start gap-3 p-5"
-          >
-            <Badge variant="chip" className="font-mono uppercase tracking-wider">
-              {capability.category}
-            </Badge>
-            <h3 className="text-base font-medium text-foreground">{capability.name}</h3>
-          </motion.li>
+          <li key={capability.name}>
+            <MotionReveal
+              delay={(index % 3) * 0.05}
+              className="h-full surface-card surface-card-interactive flex flex-col items-start gap-3 p-5"
+            >
+              <Badge variant="chip" className="font-mono uppercase tracking-wider">
+                {capability.category}
+              </Badge>
+              <h3 className="text-base font-medium text-foreground">{capability.name}</h3>
+            </MotionReveal>
+          </li>
         ))}
       </ul>
     </section>

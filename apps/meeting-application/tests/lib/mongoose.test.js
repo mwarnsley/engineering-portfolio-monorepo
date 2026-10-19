@@ -38,4 +38,32 @@ describe('lib/mongoose', () => {
 
     expect(connect).toHaveBeenCalledTimes(1);
   });
+  it('requires a database URI before attempting a connection', async () => {
+    delete process.env.MONGODB_URI;
+    await expect(import('../../lib/mongoose')).rejects.toThrow(
+      'Please define the MONGODB_URI environment variable.'
+    );
+  });
+
+  it('reuses a connection cached by a previous module instance', async () => {
+    const connection = { readyState: 1 };
+    global.mongoose = { conn: connection, promise: Promise.resolve(connection) };
+    const { connectToDatabase } = await import('../../lib/mongoose');
+    await expect(connectToDatabase()).resolves.toBe(connection);
+  });
+
+  it('shares one pending connection across concurrent callers', async () => {
+    let resolveConnection;
+    const pending = new Promise((resolve) => {
+      resolveConnection = resolve;
+    });
+    const connect = jest.fn().mockReturnValue(pending);
+    jest.doMock('mongoose', () => ({ __esModule: true, default: { connect } }));
+    const { connectToDatabase } = await import('../../lib/mongoose');
+    const first = connectToDatabase();
+    const second = connectToDatabase();
+    resolveConnection('connected');
+    expect(await Promise.all([first, second])).toEqual(['connected', 'connected']);
+    expect(connect).toHaveBeenCalledTimes(1);
+  });
 });

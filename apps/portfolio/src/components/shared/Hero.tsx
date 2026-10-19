@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { MotionReveal } from '@/components/shared/MotionReveal';
 import { ArrowRight, FileText, Terminal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { YEARS_OF_EXPERIENCE_LABEL } from '@/data';
@@ -16,12 +16,6 @@ interface HeroProps {
   onOpenArchitecture: () => void;
 }
 
-const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, delay },
-});
-
 export const Hero = ({ onOpenTerminal, onOpenProfile, onOpenArchitecture }: HeroProps) => {
   return (
     <section id="hero" aria-labelledby="hero-heading" className="relative isolate overflow-hidden">
@@ -29,31 +23,30 @@ export const Hero = ({ onOpenTerminal, onOpenProfile, onOpenArchitecture }: Hero
 
       <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-20 sm:px-8 lg:min-h-[70vh] lg:flex-row lg:items-center lg:gap-10 lg:py-28 xl:gap-16">
         <div className="min-w-0 flex-1">
-          <motion.p
-            {...fadeUp(0)}
-            className="mb-5 font-mono text-sm font-medium uppercase tracking-widest text-brand"
-          >
-            Senior Frontend Engineer
-          </motion.p>
+          <MotionReveal delay={0}>
+            <p className="mb-5 font-mono text-sm font-medium uppercase tracking-widest text-brand">
+              Senior Frontend Engineer
+            </p>
+          </MotionReveal>
 
-          <motion.h1
-            id="hero-heading"
-            {...fadeUp(0.05)}
-            className="text-4xl font-semibold leading-tight text-balance text-foreground sm:text-5xl lg:text-4xl xl:text-5xl"
-          >
-            Engineering scalable, accessible frontend systems.
-          </motion.h1>
+          <MotionReveal delay={0.05}>
+            <h1
+              id="hero-heading"
+              className="text-4xl font-semibold leading-tight text-balance text-foreground sm:text-5xl lg:text-4xl xl:text-5xl"
+            >
+              Engineering scalable, accessible frontend systems.
+            </h1>
+          </MotionReveal>
 
-          <motion.p
-            {...fadeUp(0.15)}
-            className="mt-6 max-w-2xl text-base leading-relaxed text-pretty text-secondary-foreground md:text-lg"
-          >
-            Senior Front-End Engineer with {YEARS_OF_EXPERIENCE_LABEL} of enterprise experience
-            specializing in React, Next.js, TypeScript, and high-scale design systems. Delivering
-            resilient, WCAG AAA-compliant interfaces across complex web and mobile ecosystems.
-          </motion.p>
+          <MotionReveal delay={0.15}>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-pretty text-secondary-foreground md:text-lg">
+              Senior Front-End Engineer with {YEARS_OF_EXPERIENCE_LABEL} of enterprise experience
+              specializing in React, Next.js, TypeScript, and high-scale design systems. Delivering
+              resilient, WCAG AAA-compliant interfaces across complex web and mobile ecosystems.
+            </p>
+          </MotionReveal>
 
-          <motion.div {...fadeUp(0.25)} className="mt-10 space-y-5">
+          <MotionReveal delay={0.15} className="mt-10 space-y-5">
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button
                 size="lg"
@@ -82,15 +75,15 @@ export const Hero = ({ onOpenTerminal, onOpenProfile, onOpenArchitecture }: Hero
               <Terminal aria-hidden="true" className="size-4" />
               or explore via the interactive CLI
             </button>
-          </motion.div>
+          </MotionReveal>
         </div>
 
-        <motion.div
-          {...fadeUp(0.3)}
+        <MotionReveal
+          delay={0.2}
           className="w-full max-w-xl lg:w-sm lg:max-w-none lg:shrink-0 xl:w-md"
         >
           <SystemBlueprintCard onOpenArchitecture={onOpenArchitecture} />
-        </motion.div>
+        </MotionReveal>
       </div>
     </section>
   );
